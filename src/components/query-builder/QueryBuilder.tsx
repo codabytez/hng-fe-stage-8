@@ -6,6 +6,7 @@ import { AddRuleButton, AddGroupButton } from "./AddRuleButton";
 import { ComplexityBanner } from "./ComplexityBanner";
 import { IconButton } from "../shared/IconButton";
 import { useQueryStore, useQueryActions, useCanUndo, useCanRedo } from "@/store/query-store";
+import { useValidation } from "@/hooks/useValidation";
 
 export function QueryBuilder() {
   const tree = useQueryStore((s) => s.tree);
@@ -13,6 +14,7 @@ export function QueryBuilder() {
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
   const hasConditions = tree.conditions.length > 0;
+  const validation = useValidation();
 
   return (
     <section className="flex flex-1 flex-col gap-3 overflow-y-auto border-r border-border-subtle bg-bg-base p-4">
@@ -35,12 +37,18 @@ export function QueryBuilder() {
       </div>
 
       <ComplexityBanner group={tree} />
-      <ConditionGroup group={tree} depth={0} />
+      <ConditionGroup group={tree} depth={0} validation={validation} />
 
       <div className="flex gap-2">
         <AddRuleButton onClick={() => addRule("root")} />
         <AddGroupButton onClick={() => addGroup("root")} />
       </div>
+
+      {hasConditions && !validation.isValid && (
+        <p className="text-xs text-destructive">
+          {validation.errors.length} error{validation.errors.length !== 1 ? "s" : ""} — fix all rules before running
+        </p>
+      )}
     </section>
   );
 }

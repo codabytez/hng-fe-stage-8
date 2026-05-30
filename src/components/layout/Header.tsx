@@ -8,6 +8,7 @@ import { Kbd } from "../shared/Kbd";
 import { Spinner } from "../shared/Spinner";
 import { useQueryStore, useQueryActions } from "@/store/query-store";
 import { useUIStore } from "@/store/ui-store";
+import { useValidation } from "@/hooks/useValidation";
 
 const ThemeToggle = dynamic(
   () => import("./ThemeToggle").then((m) => m.ThemeToggle),
@@ -27,8 +28,11 @@ interface HeaderProps {
 
 export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
   const schemaId = useQueryStore((s) => s.schemaId);
+  const hasConditions = useQueryStore((s) => s.tree.conditions.length > 0);
   const { setSchema } = useQueryActions();
   const setShortcutModalOpen = useUIStore((s) => s.setShortcutModalOpen);
+  const { isValid } = useValidation();
+  const canRun = hasConditions && isValid && !isRunning;
 
   return (
     <header className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle bg-bg-surface px-5">
@@ -69,7 +73,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         <div className="flex flex-col items-center gap-0.5">
           <button
             onClick={onRunQuery}
-            disabled={isRunning}
+            disabled={!canRun}
             className={cn(
               "flex h-8 items-center gap-2 rounded-md bg-accent px-4 text-sm font-medium text-white transition-all",
               "hover:bg-accent-hover active:scale-[0.97]",
