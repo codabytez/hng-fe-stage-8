@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "next-themes";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { ToastProvider } from "@/components/shared/ToastContainer";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -37,7 +38,9 @@ export default function RootLayout({
           storageKey="nexusdb-theme"
         >
           <TooltipProvider delayDuration={300}>
-            {children}
+            <ToastProvider>
+              {children}
+            </ToastProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>

@@ -6,9 +6,13 @@ import { CloseCircle } from "iconsax-react";
 import { cn } from "@/lib/utils";
 import { ruleVariants } from "@/lib/motion";
 import { DragHandle } from "./DragHandle";
+import { RuleField } from "./RuleField";
+import { RuleOperator } from "./RuleOperator";
+import { RuleValue } from "./RuleValue";
 import { IconButton } from "../shared/IconButton";
-import { useQueryActions } from "@/store/query-store";
-import type { Rule } from "@/lib/query-engine/types";
+import { useQueryActions, useQueryStore } from "@/store/query-store";
+import { getSchema } from "@/lib/schemas";
+import type { Rule, RuleValue as RuleValueType } from "@/lib/query-engine/types";
 
 interface ConditionRuleProps {
   rule: Rule;
@@ -19,14 +23,27 @@ interface ConditionRuleProps {
 }
 
 export const ConditionRule = React.memo(
-  function ConditionRule({
-    rule,
-    groupId,
-    error,
-    dragListeners,
-    dragAttributes,
-  }: ConditionRuleProps) {
-    const { removeRule } = useQueryActions();
+  function ConditionRule({ rule, groupId, error, dragListeners, dragAttributes }: ConditionRuleProps) {
+    const { removeRule, updateRule } = useQueryActions();
+    const schemaId = useQueryStore((s) => s.schemaId);
+    const schema = getSchema(schemaId);
+    const selectedField = schema.fields.find((f) => f.name === rule.field) ?? null;
+
+    const handleFieldChange = useCallback(
+      (field: string) => updateRule(groupId, rule.id, { field }),
+      [groupId, rule.id, updateRule],
+    );
+
+    const handleOperatorChange = useCallback(
+      (operator: RuleValueType extends never ? never : Parameters<typeof updateRule>[2]["operator"]) =>
+        updateRule(groupId, rule.id, { operator: operator as Rule["operator"] }),
+      [groupId, rule.id, updateRule],
+    );
+
+    const handleValueChange = useCallback(
+      (value: RuleValueType) => updateRule(groupId, rule.id, { value }),
+      [groupId, rule.id, updateRule],
+    );
 
     const handleRemove = useCallback(
       () => removeRule(groupId, rule.id),
@@ -53,31 +70,28 @@ export const ConditionRule = React.memo(
         >
           <DragHandle listeners={dragListeners} attributes={dragAttributes} />
 
-          {/* Field selector placeholder */}
-          <div className="border-border-default bg-bg-surface text-text-muted flex h-7.5 w-40 shrink-0 items-center rounded-md border px-2 text-sm">
-            {rule.field ?? "Select field…"}
+          <RuleField
+            value={rule.field}
+            onChange={handleFieldChange}
+            fields={schema.fields}
+          />
+
+          <RuleOperator
+            value={rule.operator}
+            onChange={handleOperatorChange as (op: Rule["operator"]) => void}
+            fieldType={selectedField?.type ?? null}
+            disabled={!rule.field}
+          />
+
+          <div className="flex flex-1 items-center">
+            <RuleValue
+              field={selectedField}
+              operator={rule.operator}
+              value={rule.value}
+              onChange={handleValueChange}
+            />
           </div>
 
-          {/* Operator selector placeholder */}
-          <div
-            className={cn(
-              "border-border-default bg-bg-surface flex h-7.5 w-36 shrink-0 items-center rounded-md border px-2 text-sm",
-              !rule.field ? "opacity-50" : "text-text-muted",
-            )}
-          >
-            {rule.operator ?? "Operator…"}
-          </div>
-
-          {/* Value input placeholder */}
-          {rule.operator !== "is_null" && rule.operator !== "is_not_null" && (
-            <div className="border-border-default bg-bg-surface text-text-muted flex h-7.5 flex-1 items-center rounded-md border px-2 text-sm">
-              {rule.value !== null && rule.value !== undefined
-                ? String(rule.value)
-                : "Value…"}
-            </div>
-          )}
-
-          {/* Remove */}
           <IconButton
             tooltip="Remove rule"
             aria-label="Remove rule"
@@ -91,7 +105,6 @@ export const ConditionRule = React.memo(
           </IconButton>
         </div>
 
-        {/* Inline error */}
         <AnimatePresence>
           {hasError && (
             <motion.div
@@ -101,7 +114,7 @@ export const ConditionRule = React.memo(
               transition={{ duration: 0.15 }}
               role="alert"
               aria-live="polite"
-              className="border-destructive bg-destructive-muted text-destructive rounded-b-md border-l-2 px-3 py-1.5 text-xs font-medium"
+              className="rounded-b-md border-l-2 border-destructive bg-destructive-muted px-3 py-1.5 text-xs font-medium text-destructive"
             >
               {error}
             </motion.div>

@@ -6,3 +6,6 @@ export * from "./LogicToggle";
 export * from "./AddRuleButton";
 export * from "./DragHandle";
 export * from "./ComplexityBanner";
+export * from "./RuleField";
+export * from "./RuleOperator";
+export * from "./RuleValue";

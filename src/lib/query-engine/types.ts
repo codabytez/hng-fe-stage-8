@@ -78,7 +78,7 @@ export interface SchemaField {
 export interface Schema {
   id: string;
   name: string;
-  emoji: string;
+  emoji?: string;
   description: string;
   recordCount: number;
   fields: SchemaField[];
