@@ -12,6 +12,10 @@ import { useQueryActions } from "@/store/query-store";
 import { useUIStore } from "@/store/ui-store";
 import type { Group, Rule, Condition } from "@/lib/query-engine/types";
 
+interface ValidationContext {
+  getError: (id: string) => string | undefined;
+}
+
 const GROUP_LABELS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 interface ConditionGroupProps {
@@ -19,6 +23,7 @@ interface ConditionGroupProps {
   depth: number;
   parentGroupId?: string;
   groupIndex?: number;
+  validation?: ValidationContext;
 }
 
 export const ConditionGroup = React.memo(function ConditionGroup({
@@ -26,6 +31,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
   depth,
   parentGroupId,
   groupIndex = 0,
+  validation,
 }: ConditionGroupProps) {
   const {
     addRule,
@@ -110,6 +116,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
                         key={condition.id}
                         rule={condition as Rule}
                         groupId={group.id}
+                        error={validation?.getError(condition.id)}
                       />
                     );
                   }
@@ -120,10 +127,21 @@ export const ConditionGroup = React.memo(function ConditionGroup({
                       depth={depth + 1}
                       parentGroupId={group.id}
                       groupIndex={i}
+                      validation={validation}
                     />
                   );
                 })}
               </AnimatePresence>
+
+              {/* Group-level error */}
+              {validation?.getError(group.id) && (
+                <p
+                  role="alert"
+                  className="rounded-sm border-l-2 border-destructive bg-destructive-muted px-3 py-1.5 text-xs font-medium text-destructive"
+                >
+                  {validation.getError(group.id)}
+                </p>
+              )}
 
               {/* Footer add buttons */}
               <div className="flex gap-2">
