@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { useShallow } from "zustand/react/shallow";
 import { immer } from "zustand/middleware/immer";
 import type { Draft } from "immer";
 import { generateId } from "@/lib/utils";
@@ -232,19 +233,21 @@ export function useCanRedo() {
 }
 
 export function useQueryActions() {
-  return useQueryStore((s) => ({
-    addRule: s.addRule,
-    removeRule: s.removeRule,
-    updateRule: s.updateRule,
-    addGroup: s.addGroup,
-    removeGroup: s.removeGroup,
-    updateGroupLogic: s.updateGroupLogic,
-    moveCondition: s.moveCondition,
-    reorderCondition: s.reorderCondition,
-    clearTree: s.clearTree,
-    replaceTree: s.replaceTree,
-    setSchema: s.setSchema,
-    undo: s.undo,
-    redo: s.redo,
-  }));
+  return useQueryStore(
+    useShallow((s) => ({
+      addRule: s.addRule,
+      removeRule: s.removeRule,
+      updateRule: s.updateRule,
+      addGroup: s.addGroup,
+      removeGroup: s.removeGroup,
+      updateGroupLogic: s.updateGroupLogic,
+      moveCondition: s.moveCondition,
+      reorderCondition: s.reorderCondition,
+      clearTree: s.clearTree,
+      replaceTree: s.replaceTree,
+      setSchema: s.setSchema,
+      undo: s.undo,
+      redo: s.redo,
+    })),
+  );
 }
