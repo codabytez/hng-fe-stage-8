@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UserTag, Buildings, Flash } from "iconsax-react";
+import { UserTag, Buildings, Flash } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { useQueryStore, useQueryActions } from "@/store/query-store";
 

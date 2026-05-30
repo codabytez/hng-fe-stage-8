@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRotateLeft, ArrowRotateRight } from "iconsax-react";
+import { ArrowRotateLeft, ArrowRotateRight } from "iconsax-reactjs";
 import { ConditionGroup } from "./ConditionGroup";
 import { AddRuleButton, AddGroupButton } from "./AddRuleButton";
 import { ComplexityBanner } from "./ComplexityBanner";

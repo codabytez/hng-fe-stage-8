@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { AddCircle, AddSquare, ArrowDown2, CloseCircle } from "iconsax-react";
+import { AddCircle, AddSquare, ArrowDown2, CloseCircle } from "iconsax-reactjs";
 import { LogicToggle } from "./LogicToggle";
 import { DragHandle } from "./DragHandle";
 import { IconButton } from "../shared/IconButton";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight2 } from "iconsax-react";
+import { ArrowRight2 } from "iconsax-reactjs";
 import { motion, AnimatePresence } from "motion/react";
 
 

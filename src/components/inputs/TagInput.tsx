@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 
 interface TagInputProps {

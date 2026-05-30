@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { PlayCircle } from "iconsax-react";
+import { PlayCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 import { Kbd } from "../shared/Kbd";

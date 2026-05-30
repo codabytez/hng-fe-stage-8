@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle } from "iconsax-reactjs";
 
 export interface ToastData {
   id: string;

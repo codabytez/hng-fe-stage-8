@@ -1,6 +1,6 @@
 "use client";
 
-import { Data, Clock, ArchiveBook } from "iconsax-react";
+import { Data, Clock, ArchiveBook } from "iconsax-reactjs";
 import { SidebarSection } from "./SidebarSection";
 import { SchemaCard } from "./SchemaCard";
 import { HistorySection } from "./HistoryItem";

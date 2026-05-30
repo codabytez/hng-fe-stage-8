@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { TickCircle, CloseCircle, Refresh, Trash } from "iconsax-react";
+import { TickCircle, CloseCircle, Refresh, Trash } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { useHistoryStore, type SavedPreset } from "@/store/history-store";
 import { useQueryActions } from "@/store/query-store";

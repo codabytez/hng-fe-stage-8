@@ -14,29 +14,20 @@ interface RuleOperatorProps {
 
 export function RuleOperator({ value, onChange, fieldType, disabled }: RuleOperatorProps) {
   const operators = fieldType ? getOperatorsForType(fieldType) : [];
+  const isDisabled = disabled || !fieldType;
 
   return (
     <Select
       value={value ?? ""}
       onValueChange={(v) => onChange(v as OperatorValue)}
-      disabled={disabled || !fieldType}
+      disabled={isDisabled}
     >
-      <SelectTrigger
-        className={cn(
-          "h-[30px] w-36 shrink-0 border-border-default bg-bg-surface text-sm",
-          "focus:border-accent focus:ring-2 focus:ring-accent-muted",
-          (!fieldType || disabled) && "cursor-not-allowed opacity-50",
-        )}
-      >
+      <SelectTrigger className={cn("w-36 shrink-0", isDisabled && "cursor-not-allowed opacity-50")}>
         <SelectValue placeholder="Operator…" />
       </SelectTrigger>
-      <SelectContent className="border-border-default bg-bg-elevated">
+      <SelectContent>
         {operators.map((op) => (
-          <SelectItem
-            key={op.value}
-            value={op.value}
-            className="text-sm text-text-primary focus:bg-bg-hover focus:text-text-primary"
-          >
+          <SelectItem key={op.value} value={op.value}>
             {op.label}
           </SelectItem>
         ))}

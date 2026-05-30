@@ -8,7 +8,7 @@ import {
   type Locale,
   type CalendarWeek,
 } from "react-day-picker";
-import { ArrowLeft2, ArrowRight2, ArrowDown2 } from "iconsax-react";
+import { ArrowLeft2, ArrowRight2, ArrowDown2 } from "iconsax-reactjs";
 
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
