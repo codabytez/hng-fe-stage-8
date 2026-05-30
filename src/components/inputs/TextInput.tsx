@@ -7,7 +7,12 @@ interface TextInputProps {
   className?: string;
 }
 
-export function TextInput({ value, onChange, placeholder = "Enter value…", className }: TextInputProps) {
+export function TextInput({
+  value,
+  onChange,
+  placeholder = "Enter value…",
+  className,
+}: TextInputProps) {
   return (
     <input
       type="text"
@@ -15,8 +20,8 @@ export function TextInput({ value, onChange, placeholder = "Enter value…", cla
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       className={cn(
-        "h-[30px] w-full rounded-md border border-border-default bg-bg-surface px-2 text-sm text-text-primary placeholder:text-text-muted",
-        "focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-accent-muted",
+        "border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted h-7.5 w-full rounded-md border px-2 text-sm",
+        "focus:border-border-focus focus:ring-accent-muted focus:ring-2 focus:outline-none",
         className,
       )}
     />

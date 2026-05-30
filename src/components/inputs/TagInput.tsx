@@ -10,7 +10,11 @@ interface TagInputProps {
   placeholder?: string;
 }
 
-export function TagInput({ value = [], onChange, placeholder = "Type value, press Enter…" }: TagInputProps) {
+export function TagInput({
+  value = [],
+  onChange,
+  placeholder = "Type value, press Enter…",
+}: TagInputProps) {
   const [input, setInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -29,20 +33,23 @@ export function TagInput({ value = [], onChange, placeholder = "Type value, pres
   return (
     <div
       className={cn(
-        "flex min-h-[30px] flex-1 flex-wrap items-center gap-1 rounded-md border border-border-default bg-bg-surface px-2 py-1",
-        "focus-within:border-border-focus focus-within:ring-2 focus-within:ring-accent-muted",
+        "border-border-default bg-bg-surface flex min-h-7.5 flex-1 flex-wrap items-center gap-1 rounded-md border px-2 py-1",
+        "focus-within:border-border-focus focus-within:ring-accent-muted focus-within:ring-2",
       )}
       onClick={() => inputRef.current?.focus()}
     >
       {value.map((tag) => (
         <span
           key={tag}
-          className="flex items-center gap-0.5 rounded-sm border border-border-default bg-bg-elevated px-1.5 py-0.5 text-xs text-text-primary"
+          className="border-border-default bg-bg-elevated text-text-primary flex items-center gap-0.5 rounded-sm border px-1.5 py-0.5 text-xs"
         >
           {tag}
           <button
             type="button"
-            onClick={(e) => { e.stopPropagation(); removeTag(tag); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeTag(tag);
+            }}
             className="text-text-muted hover:text-destructive"
           >
             <CloseCircle size={10} />
@@ -61,9 +68,11 @@ export function TagInput({ value = [], onChange, placeholder = "Type value, pres
             onChange(value.slice(0, -1));
           }
         }}
-        onBlur={() => { if (input.trim()) addTag(input); }}
+        onBlur={() => {
+          if (input.trim()) addTag(input);
+        }}
         placeholder={value.length === 0 ? placeholder : ""}
-        className="min-w-24 flex-1 bg-transparent text-sm text-text-primary placeholder:text-text-muted outline-none"
+        className="text-text-primary placeholder:text-text-muted min-w-24 flex-1 bg-transparent text-sm outline-none"
       />
     </div>
   );

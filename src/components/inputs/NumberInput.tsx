@@ -9,18 +9,27 @@ interface NumberInputProps {
   className?: string;
 }
 
-export function NumberInput({ value, onChange, min, max, placeholder = "Enter number…", className }: NumberInputProps) {
+export function NumberInput({
+  value,
+  onChange,
+  min,
+  max,
+  placeholder = "Enter number…",
+  className,
+}: NumberInputProps) {
   return (
     <input
       type="number"
       value={value === null || value === undefined ? "" : value}
-      onChange={(e) => onChange(e.target.value === "" ? "" : Number(e.target.value))}
+      onChange={(e) =>
+        onChange(e.target.value === "" ? "" : Number(e.target.value))
+      }
       min={min}
       max={max}
       placeholder={placeholder}
       className={cn(
-        "h-[30px] w-full rounded-md border border-border-default bg-bg-surface px-2 font-mono text-sm text-text-primary placeholder:text-text-muted",
-        "focus:border-border-focus focus:outline-none focus:ring-2 focus:ring-accent-muted",
+        "border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted h-7.5 w-full rounded-md border px-2 font-mono text-sm",
+        "focus:border-border-focus focus:ring-accent-muted focus:ring-2 focus:outline-none",
         className,
       )}
     />

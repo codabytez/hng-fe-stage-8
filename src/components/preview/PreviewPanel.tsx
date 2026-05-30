@@ -34,12 +34,23 @@ export function PreviewPanel() {
     () => JSON.stringify(generateMongo(tree, schema), null, 2),
     [tree, schema],
   );
-  const graphqlOutput = useMemo(() => generateGraphQL(tree, schema), [tree, schema]);
+  const graphqlOutput = useMemo(
+    () => generateGraphQL(tree, schema),
+    [tree, schema],
+  );
 
   const currentCode =
-    activeFormat === "SQL" ? sqlOutput : activeFormat === "MongoDB" ? mongoOutput : graphqlOutput;
+    activeFormat === "SQL"
+      ? sqlOutput
+      : activeFormat === "MongoDB"
+        ? mongoOutput
+        : graphqlOutput;
   const currentLang =
-    activeFormat === "SQL" ? "sql" : activeFormat === "MongoDB" ? "json" : "graphql";
+    activeFormat === "SQL"
+      ? "sql"
+      : activeFormat === "MongoDB"
+        ? "json"
+        : "graphql";
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(currentCode);
@@ -58,14 +69,16 @@ export function PreviewPanel() {
   }, [currentCode, schemaId, activeFormat]);
 
   return (
-    <aside className="flex w-[360px] shrink-0 flex-col gap-3 overflow-y-auto border-l border-border-subtle bg-bg-surface p-4">
+    <aside className="border-border-subtle bg-bg-surface flex w-90 shrink-0 flex-col gap-3 overflow-y-auto border-l p-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-text-primary">Query Preview</h2>
+        <h2 className="text-text-primary text-lg font-semibold">
+          Query Preview
+        </h2>
         <div className="flex items-center gap-1">
           <button
             onClick={handleExport}
-            className="flex items-center gap-1 rounded-sm px-2 py-1 text-xs text-text-secondary hover:text-text-primary"
+            className="text-text-secondary hover:text-text-primary flex items-center gap-1 rounded-sm px-2 py-1 text-xs"
             aria-label="Export query"
           >
             <DocumentDownload size={13} />
@@ -73,7 +86,7 @@ export function PreviewPanel() {
           </button>
           <button
             onClick={handleCopy}
-            className="flex items-center gap-1 rounded-sm px-2 py-1 text-xs text-text-secondary hover:text-text-primary"
+            className="text-text-secondary hover:text-text-primary flex items-center gap-1 rounded-sm px-2 py-1 text-xs"
             aria-label="Copy to clipboard"
           >
             <Copy size={13} />
@@ -90,7 +103,7 @@ export function PreviewPanel() {
       </div>
 
       {/* Format tabs */}
-      <div className="flex rounded-md bg-bg-elevated p-1 gap-1">
+      <div className="bg-bg-elevated flex gap-1 rounded-md p-1">
         {TABS.map((tab) => (
           <button
             key={tab.id}
@@ -117,7 +130,7 @@ export function PreviewPanel() {
         <CodeBlock
           code={currentCode}
           language={currentLang}
-          className="min-h-[200px] flex-1"
+          className="min-h-50 flex-1"
         />
       </motion.div>
 
