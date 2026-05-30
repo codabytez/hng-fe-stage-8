@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import { Sun, Moon, Monitor } from "iconsax-react";
+import { Sun, Moon, Monitor } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 

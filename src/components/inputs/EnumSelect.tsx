@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDown2, SearchNormal1 } from "iconsax-react";
+import { ArrowDown2, SearchNormal1 } from "iconsax-reactjs";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 

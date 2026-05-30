@@ -2,7 +2,7 @@
 
 import React, { useCallback } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import { CloseCircle } from "iconsax-react";
+import { CloseCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { ruleVariants } from "@/lib/motion";
 import { DragHandle } from "./DragHandle";

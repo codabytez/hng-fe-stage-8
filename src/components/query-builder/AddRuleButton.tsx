@@ -1,4 +1,4 @@
-import { AddCircle } from "iconsax-react";
+import { AddCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 
 interface AddButtonProps {

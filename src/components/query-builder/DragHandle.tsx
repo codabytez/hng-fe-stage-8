@@ -1,4 +1,4 @@
-import { HambergerMenu } from "iconsax-react";
+import { HamburgerMenu } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 
 interface DragHandleProps {
@@ -22,7 +22,7 @@ export function DragHandle({ listeners, attributes, className }: DragHandleProps
       {...(listeners as React.ButtonHTMLAttributes<HTMLButtonElement>)}
       {...(attributes as React.ButtonHTMLAttributes<HTMLButtonElement>)}
     >
-      <HambergerMenu size={14} />
+      <HamburgerMenu size={14} />
     </button>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp2 } from "iconsax-react";
+import { ArrowUp2 } from "iconsax-reactjs";
 import { motion } from "motion/react";
 
 import { useUIStore } from "@/store/ui-store";

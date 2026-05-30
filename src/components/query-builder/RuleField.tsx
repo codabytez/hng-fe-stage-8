@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDown2, SearchNormal1, TextalignLeft, Hashtag, RowHorizontal, ToggleOffCircle, CalendarEdit, Bezier } from "iconsax-react";
+import { ArrowDown2, SearchNormal1, TextalignLeft, Hashtag, RowHorizontal, ToggleOffCircle, CalendarEdit, Bezier } from "iconsax-reactjs";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { SchemaField, FieldType } from "@/lib/query-engine/types";
