@@ -13,6 +13,7 @@ import type { QueryResults, PageSize } from "@/hooks/useQueryExecution";
 interface ResultsDrawerProps {
   isRunning: boolean;
   results: QueryResults | null;
+  allMatched: Record<string, unknown>[];
   sortField: string | null;
   sortDir: "asc" | "desc";
   page: number;
@@ -25,6 +26,7 @@ interface ResultsDrawerProps {
 export function ResultsDrawer({
   isRunning,
   results,
+  allMatched,
   sortField,
   sortDir,
   page,
@@ -36,10 +38,10 @@ export function ResultsDrawer({
   const resultsOpen = useUIStore((s) => s.resultsOpen);
 
   const handleExportCSV = useCallback(() => {
-    if (!results?.rows.length) return;
-    const cols = Object.keys(results.rows[0]);
+    if (!allMatched.length) return;
+    const cols = Object.keys(allMatched[0]);
     const header = cols.join(",");
-    const body = results.rows
+    const body = allMatched
       .map((row) => cols.map((c) => JSON.stringify(row[c] ?? "")).join(","))
       .join("\n");
     const blob = new Blob([`${header}\n${body}`], { type: "text/csv" });
@@ -49,7 +51,7 @@ export function ResultsDrawer({
     a.download = "nexusdb-results.csv";
     a.click();
     URL.revokeObjectURL(url);
-  }, [results]);
+  }, [allMatched]);
 
   return (
     <motion.div

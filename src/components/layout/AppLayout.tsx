@@ -19,6 +19,7 @@ export function AppLayout() {
     run,
     isRunning,
     results,
+    allMatched,
     sortField,
     sortDir,
     page,
@@ -100,6 +101,7 @@ export function AppLayout() {
           <ResultsDrawer
             isRunning={isRunning}
             results={results}
+            allMatched={allMatched}
             sortField={sortField}
             sortDir={sortDir}
             page={page}
