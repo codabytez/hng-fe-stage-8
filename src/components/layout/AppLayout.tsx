@@ -35,7 +35,7 @@ export function AppLayout() {
   const activeMobileTab = useUIStore((s) => s.activeMobileTab);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-bg-base">
+    <div className="bg-bg-base flex h-screen overflow-hidden">
       {/* ── Desktop sidebar: in-flow, width animation ── */}
       <motion.div
         animate={{ width: sidebarOpen ? 240 : 48 }}
@@ -88,12 +88,24 @@ export function AppLayout() {
         >
           <div className="flex min-h-0 flex-1 overflow-hidden">
             {/* QueryBuilder: always on desktop, only on builder tab on mobile */}
-            <div className={activeMobileTab === "preview" ? "hidden md:flex flex-1 min-h-0" : "flex flex-1 min-h-0"}>
+            <div
+              className={
+                activeMobileTab === "preview"
+                  ? "hidden min-h-0 flex-1 md:flex"
+                  : "flex min-h-0 flex-1"
+              }
+            >
               <QueryBuilder />
             </div>
 
             {/* PreviewPanel: always on desktop, only on preview tab on mobile */}
-            <div className={activeMobileTab === "builder" ? "hidden md:flex" : "flex flex-1 min-h-0 md:flex-none"}>
+            <div
+              className={
+                activeMobileTab === "builder"
+                  ? "hidden md:flex"
+                  : "flex min-h-0 flex-1 md:flex-none"
+              }
+            >
               <PreviewPanel />
             </div>
           </div>
