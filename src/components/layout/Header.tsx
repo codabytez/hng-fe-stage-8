@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { PlayCircle, HamburgerMenu } from "iconsax-reactjs";
+import { PlayCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 import { Kbd } from "../shared/Kbd";
@@ -31,35 +31,18 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
   const hasConditions = useQueryStore((s) => s.tree.conditions.length > 0);
   const { setSchema } = useQueryActions();
   const setShortcutModalOpen = useUIStore((s) => s.setShortcutModalOpen);
-  const sidebarOpen = useUIStore((s) => s.sidebarOpen);
-  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const { isValid } = useValidation();
   const canRun = hasConditions && isValid && !isRunning;
 
   return (
-    <header role="banner" className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle bg-bg-surface px-5">
-      {/* Sidebar toggle */}
-      <IconButton
-        tooltip={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
-        aria-expanded={sidebarOpen}
-        aria-controls="app-sidebar"
-        onClick={toggleSidebar}
-        className="mr-1"
-      >
-        <HamburgerMenu size={16} />
-      </IconButton>
+    <header
+      role="banner"
+      className="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-border-subtle bg-bg-surface px-5"
+    >
+      {/* Left spacer — keeps schema selector truly centered */}
+      <div />
 
-      {/* Logo */}
-      <div className="flex items-center gap-2.5">
-        <HexLogo />
-        <div className="flex flex-col leading-none">
-          <span className="font-mono text-lg font-bold text-text-primary">NexusDB</span>
-          <span className="text-sm text-text-muted">Explorer</span>
-        </div>
-      </div>
-
-      {/* Schema selector pill */}
+      {/* Schema selector pill — centered */}
       <nav aria-label="Dataset selector" className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
         {SCHEMAS.map((schema) => {
           const isActive = schemaId === schema.id;
@@ -84,7 +67,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
       </nav>
 
       {/* Right controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-end gap-3">
         {/* Run Query */}
         <div className="flex flex-col items-center gap-0.5">
           <button
@@ -127,23 +110,5 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         </IconButton>
       </div>
     </header>
-  );
-}
-
-function HexLogo() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d="M10 1.5L17.794 6V14L10 18.5L2.206 14V6L10 1.5Z"
-        fill="var(--accent)"
-        fillOpacity="0.2"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M10 5.5L14.5 8V13L10 15.5L5.5 13V8L10 5.5Z"
-        fill="var(--accent)"
-      />
-    </svg>
   );
 }
