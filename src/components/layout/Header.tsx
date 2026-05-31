@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { PlayCircle } from "iconsax-reactjs";
+import { PlayCircle, HamburgerMenu } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 import { Kbd } from "../shared/Kbd";
@@ -31,11 +31,25 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
   const hasConditions = useQueryStore((s) => s.tree.conditions.length > 0);
   const { setSchema } = useQueryActions();
   const setShortcutModalOpen = useUIStore((s) => s.setShortcutModalOpen);
+  const sidebarOpen = useUIStore((s) => s.sidebarOpen);
+  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const { isValid } = useValidation();
   const canRun = hasConditions && isValid && !isRunning;
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle bg-bg-surface px-5">
+    <header role="banner" className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle bg-bg-surface px-5">
+      {/* Sidebar toggle */}
+      <IconButton
+        tooltip={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        aria-expanded={sidebarOpen}
+        aria-controls="app-sidebar"
+        onClick={toggleSidebar}
+        className="mr-1"
+      >
+        <HamburgerMenu size={16} />
+      </IconButton>
+
       {/* Logo */}
       <div className="flex items-center gap-2.5">
         <HexLogo />
@@ -46,13 +60,15 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
       </div>
 
       {/* Schema selector pill */}
-      <div className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
+      <nav aria-label="Dataset selector" className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
         {SCHEMAS.map((schema) => {
           const isActive = schemaId === schema.id;
           return (
             <button
               key={schema.id}
               onClick={() => setSchema(schema.id)}
+              aria-pressed={isActive}
+              aria-label={`Switch to ${schema.label} dataset`}
               className={cn(
                 "flex items-center gap-1.5 rounded-full px-3 py-1 text-sm transition-all duration-150",
                 isActive
@@ -65,7 +81,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
             </button>
           );
         })}
-      </div>
+      </nav>
 
       {/* Right controls */}
       <div className="flex items-center gap-3">
@@ -74,6 +90,8 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
           <button
             onClick={onRunQuery}
             disabled={!canRun}
+            aria-label={isRunning ? "Query is running" : "Run query"}
+            aria-busy={isRunning}
             className={cn(
               "flex h-8 items-center gap-2 rounded-md bg-accent px-4 text-sm font-medium text-white transition-all",
               "hover:bg-accent-hover active:scale-[0.97]",

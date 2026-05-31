@@ -8,7 +8,10 @@ import { PresetsSection } from "./PresetItem";
 
 export function Sidebar() {
   return (
-    <aside className="flex w-60 shrink-0 flex-col overflow-y-auto border-r border-border-subtle bg-bg-surface px-3 py-4">
+    <aside
+      aria-label="Sidebar navigation"
+      className="flex h-full w-60 shrink-0 flex-col overflow-y-auto border-r border-border-subtle bg-bg-surface px-3 py-4"
+    >
       <SidebarSection
         title="Schema"
         defaultOpen
