@@ -13,9 +13,9 @@ function AddButton({ onClick, label, size = "md", className }: AddButtonProps) {
     <button
       onClick={onClick}
       className={cn(
-        "flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed border-border-subtle text-text-muted transition-colors",
+        "border-border-subtle text-text-muted flex w-full items-center justify-center gap-1.5 rounded-md border border-dashed transition-colors",
         "hover:border-accent hover:text-accent",
-        size === "sm" ? "h-[30px] text-xs" : "h-9 text-sm",
+        size === "sm" ? "h-7.5 text-xs" : "h-9 text-sm",
         className,
       )}
     >
@@ -25,10 +25,22 @@ function AddButton({ onClick, label, size = "md", className }: AddButtonProps) {
   );
 }
 
-export function AddRuleButton({ onClick, size }: { onClick: () => void; size?: "sm" | "md" }) {
+export function AddRuleButton({
+  onClick,
+  size,
+}: {
+  onClick: () => void;
+  size?: "sm" | "md";
+}) {
   return <AddButton onClick={onClick} label="Add Rule" size={size} />;
 }
 
-export function AddGroupButton({ onClick, size }: { onClick: () => void; size?: "sm" | "md" }) {
+export function AddGroupButton({
+  onClick,
+  size,
+}: {
+  onClick: () => void;
+  size?: "sm" | "md";
+}) {
   return <AddButton onClick={onClick} label="Add Group" size={size} />;
 }
