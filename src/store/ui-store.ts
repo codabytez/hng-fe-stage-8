@@ -10,6 +10,7 @@ interface UIStoreState {
   shortcutModalOpen: boolean;
   exportModalOpen: boolean;
   importModalOpen: boolean;
+  activeMobileTab: "builder" | "preview";
 }
 
 interface UIStoreActions {
@@ -24,6 +25,7 @@ interface UIStoreActions {
   setShortcutModalOpen: (open: boolean) => void;
   setExportModalOpen: (open: boolean) => void;
   setImportModalOpen: (open: boolean) => void;
+  setActiveMobileTab: (tab: "builder" | "preview") => void;
 }
 
 type UIStore = UIStoreState & UIStoreActions;
@@ -37,6 +39,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   shortcutModalOpen: false,
   exportModalOpen: false,
   importModalOpen: false,
+  activeMobileTab: "builder",
 
   toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
 
@@ -67,6 +70,7 @@ export const useUIStore = create<UIStore>()((set) => ({
   setShortcutModalOpen: (open) => set({ shortcutModalOpen: open }),
   setExportModalOpen: (open) => set({ exportModalOpen: open }),
   setImportModalOpen: (open) => set({ importModalOpen: open }),
+  setActiveMobileTab: (tab) => set({ activeMobileTab: tab }),
 }));
 
 export function useSidebarOpen() {

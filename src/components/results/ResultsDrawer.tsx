@@ -8,19 +8,40 @@ import { ResultsPagination } from "./ResultsPagination";
 import { ResultsLoadingState } from "./ResultsLoadingState";
 import { ResultsEmptyState } from "./ResultsEmptyState";
 import { useUIStore } from "@/store/ui-store";
-import { useQueryExecution } from "@/hooks/useQueryExecution";
-import type { PageSize } from "@/hooks/useQueryExecution";
+import type { QueryResults, PageSize } from "@/hooks/useQueryExecution";
 
-export function ResultsDrawer() {
+interface ResultsDrawerProps {
+  isRunning: boolean;
+  results: QueryResults | null;
+  allMatched: Record<string, unknown>[];
+  sortField: string | null;
+  sortDir: "asc" | "desc";
+  page: number;
+  pageSize: PageSize;
+  goToPage: (page: number) => void;
+  changePageSize: (size: PageSize) => void;
+  toggleSort: (field: string) => void;
+}
+
+export function ResultsDrawer({
+  isRunning,
+  results,
+  allMatched,
+  sortField,
+  sortDir,
+  page,
+  pageSize,
+  goToPage,
+  changePageSize,
+  toggleSort,
+}: ResultsDrawerProps) {
   const resultsOpen = useUIStore((s) => s.resultsOpen);
-  const { isRunning, results, sortField, sortDir, page, pageSize, goToPage, changePageSize, toggleSort } =
-    useQueryExecution();
 
   const handleExportCSV = useCallback(() => {
-    if (!results?.rows.length) return;
-    const cols = Object.keys(results.rows[0]);
+    if (!allMatched.length) return;
+    const cols = Object.keys(allMatched[0]);
     const header = cols.join(",");
-    const body = results.rows
+    const body = allMatched
       .map((row) => cols.map((c) => JSON.stringify(row[c] ?? "")).join(","))
       .join("\n");
     const blob = new Blob([`${header}\n${body}`], { type: "text/csv" });
@@ -30,13 +51,13 @@ export function ResultsDrawer() {
     a.download = "nexusdb-results.csv";
     a.click();
     URL.revokeObjectURL(url);
-  }, [results]);
+  }, [allMatched]);
 
   return (
     <motion.div
       animate={{ height: resultsOpen ? "35vh" : "40px" }}
       transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-      className="shrink-0 overflow-hidden border-t border-border-subtle bg-bg-surface"
+      className="min-h-10 shrink-0 overflow-hidden border-t border-border-subtle bg-bg-surface"
     >
       <ResultsHeader results={results} onExportCSV={handleExportCSV} />
 
@@ -70,7 +91,7 @@ export function ResultsDrawer() {
                 <ResultsPagination
                   page={page}
                   totalPages={results.totalPages}
-                  pageSize={pageSize as PageSize}
+                  pageSize={pageSize}
                   onPageChange={goToPage}
                   onPageSizeChange={changePageSize}
                 />

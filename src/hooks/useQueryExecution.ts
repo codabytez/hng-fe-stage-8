@@ -139,6 +139,7 @@ export function useQueryExecution() {
     run,
     isRunning,
     results,
+    allMatched,
     sortField,
     sortDir,
     pageSize,
