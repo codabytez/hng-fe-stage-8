@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { PlayCircle } from "iconsax-reactjs";
+import { PlayCircle, HamburgerMenu } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 import { Kbd } from "../shared/Kbd";
@@ -31,19 +31,28 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
   const hasConditions = useQueryStore((s) => s.tree.conditions.length > 0);
   const { setSchema } = useQueryActions();
   const setShortcutModalOpen = useUIStore((s) => s.setShortcutModalOpen);
+  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
   const { isValid } = useValidation();
   const canRun = hasConditions && isValid && !isRunning;
 
   return (
     <header
       role="banner"
-      className="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-border-subtle bg-bg-surface px-5"
+      className="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-border-subtle bg-bg-surface px-4 md:px-5"
     >
-      {/* Left spacer — keeps schema selector truly centered */}
-      <div />
+      {/* Left — hamburger on mobile, spacer on desktop */}
+      <div className="flex items-center">
+        <button
+          onClick={toggleSidebar}
+          aria-label="Toggle sidebar"
+          className="flex h-8 w-8 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary md:hidden"
+        >
+          <HamburgerMenu size={18} />
+        </button>
+      </div>
 
       {/* Schema selector pill — centered */}
-      <nav aria-label="Dataset selector" className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
+      <nav aria-label="Dataset selector" className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1 max-sm:scale-90">
         {SCHEMAS.map((schema) => {
           const isActive = schemaId === schema.id;
           return (

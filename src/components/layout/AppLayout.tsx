@@ -1,7 +1,8 @@
 "use client";
 
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { Header } from "./Header";
+import { MobileTabBar } from "./MobileTabBar";
 import { Sidebar } from "../sidebar/Sidebar";
 import { QueryBuilder } from "../query-builder/QueryBuilder";
 import { PreviewPanel } from "../preview/PreviewPanel";
@@ -14,24 +15,69 @@ import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 import { useUIStore } from "@/store/ui-store";
 
 export function AppLayout() {
-  const { run, isRunning } = useQueryExecution();
+  const {
+    run,
+    isRunning,
+    results,
+    sortField,
+    sortDir,
+    page,
+    pageSize,
+    goToPage,
+    changePageSize,
+    toggleSort,
+  } = useQueryExecution();
+
   useKeyboardShortcuts({ onRunQuery: run });
   const sidebarOpen = useUIStore((s) => s.sidebarOpen);
+  const toggleSidebar = useUIStore((s) => s.toggleSidebar);
+  const activeMobileTab = useUIStore((s) => s.activeMobileTab);
 
   return (
     <div className="flex h-screen overflow-hidden bg-bg-base">
-      {/* Sidebar — own header row + sections */}
+      {/* ── Desktop sidebar: in-flow, width animation ── */}
       <motion.div
         animate={{ width: sidebarOpen ? 240 : 48 }}
         transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-        className="shrink-0 overflow-hidden"
+        className="hidden shrink-0 overflow-hidden md:block"
       >
         <Sidebar />
       </motion.div>
 
-      {/* Right column — header sits only here, aligned with sidebar logo row */}
+      {/* ── Mobile sidebar: full overlay + backdrop ── */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <>
+            <motion.div
+              key="mobile-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-40 bg-black/60 md:hidden"
+              aria-hidden
+              onClick={toggleSidebar}
+            />
+            <motion.div
+              key="mobile-sidebar"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+              className="fixed inset-y-0 left-0 z-50 md:hidden"
+            >
+              <Sidebar />
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* ── Right column ── */}
       <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
         <Header onRunQuery={run} isRunning={isRunning} />
+
+        {/* Mobile tab switcher — hidden on desktop */}
+        <MobileTabBar />
 
         <main
           id="main-content"
@@ -40,10 +86,28 @@ export function AppLayout() {
           className="flex min-h-0 flex-1 flex-col overflow-hidden focus:outline-none"
         >
           <div className="flex min-h-0 flex-1 overflow-hidden">
-            <QueryBuilder />
-            <PreviewPanel />
+            {/* QueryBuilder: always on desktop, only on builder tab on mobile */}
+            <div className={activeMobileTab === "preview" ? "hidden md:flex flex-1 min-h-0" : "flex flex-1 min-h-0"}>
+              <QueryBuilder />
+            </div>
+
+            {/* PreviewPanel: always on desktop, only on preview tab on mobile */}
+            <div className={activeMobileTab === "builder" ? "hidden md:flex" : "flex flex-1 min-h-0 md:flex-none"}>
+              <PreviewPanel />
+            </div>
           </div>
-          <ResultsDrawer />
+
+          <ResultsDrawer
+            isRunning={isRunning}
+            results={results}
+            sortField={sortField}
+            sortDir={sortDir}
+            page={page}
+            pageSize={pageSize}
+            goToPage={goToPage}
+            changePageSize={changePageSize}
+            toggleSort={toggleSort}
+          />
         </main>
       </div>
 
