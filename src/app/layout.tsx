@@ -17,7 +17,8 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://hng-fe-stage-8.vercel.app";
+const APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://hng-fe-stage-8.vercel.app";
 
 export const metadata: Metadata = {
   title: {
@@ -72,9 +73,7 @@ export default function RootLayout({
           storageKey="nexusdb-theme"
         >
           <TooltipProvider delayDuration={300}>
-            <ToastProvider>
-              {children}
-            </ToastProvider>
+            <ToastProvider>{children}</ToastProvider>
           </TooltipProvider>
         </ThemeProvider>
       </body>
