@@ -3,10 +3,10 @@ import { executeQuery } from "@/lib/query-engine/executor";
 import { buildGroup, buildRule } from "../utils/builders";
 
 const mockData = [
-  { id: "1", codename: "Ghost", status: "active", missionsCompleted: 47, compromised: false, lastSeen: "2024-01-12", languages: ["English", "French"] },
+  { id: "1", codename: "Ghost", status: "active", missionsCompleted: 47, compromised: false, lastSeen: "2026-01-12", languages: ["English", "French"] },
   { id: "2", codename: "Cipher", status: "inactive", missionsCompleted: 23, compromised: false, lastSeen: "2023-11-08", languages: ["Russian"] },
   { id: "3", codename: "Viper", status: "compromised", missionsCompleted: 5, compromised: true, lastSeen: "2023-06-01", languages: ["English"] },
-  { id: "4", codename: "Shadow", status: "active", missionsCompleted: 100, compromised: false, lastSeen: "2024-03-15", languages: ["Mandarin", "English"] },
+  { id: "4", codename: "Shadow", status: "active", missionsCompleted: 100, compromised: false, lastSeen: "2026-03-15", languages: ["Mandarin", "English"] },
   { id: "5", codename: "Raven", status: "retired", missionsCompleted: 0, compromised: false, lastSeen: "2022-01-01", languages: [] },
 ];
 
@@ -66,7 +66,7 @@ describe("Executor", () => {
   });
 
   it("filters by is_null", () => {
-    const dataWithNull = [...mockData, { id: "6", codename: null, status: "active", missionsCompleted: 0, compromised: false, lastSeen: "2024-01-01", languages: [] }];
+    const dataWithNull = [...mockData, { id: "6", codename: null, status: "active", missionsCompleted: 0, compromised: false, lastSeen: "2026-01-01", languages: [] }];
     const tree = buildGroup({
       conditions: [buildRule({ field: "codename", operator: "is_null", value: null })],
     });

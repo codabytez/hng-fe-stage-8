@@ -35,24 +35,23 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
   const canRun = hasConditions && isValid && !isRunning;
 
   return (
-    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle bg-bg-surface px-5">
-      {/* Logo */}
-      <div className="flex items-center gap-2.5">
-        <HexLogo />
-        <div className="flex flex-col leading-none">
-          <span className="font-mono text-lg font-bold text-text-primary">NexusDB</span>
-          <span className="text-sm text-text-muted">Explorer</span>
-        </div>
-      </div>
+    <header
+      role="banner"
+      className="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-border-subtle bg-bg-surface px-5"
+    >
+      {/* Left spacer — keeps schema selector truly centered */}
+      <div />
 
-      {/* Schema selector pill */}
-      <div className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
+      {/* Schema selector pill — centered */}
+      <nav aria-label="Dataset selector" className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1">
         {SCHEMAS.map((schema) => {
           const isActive = schemaId === schema.id;
           return (
             <button
               key={schema.id}
               onClick={() => setSchema(schema.id)}
+              aria-pressed={isActive}
+              aria-label={`Switch to ${schema.label} dataset`}
               className={cn(
                 "flex items-center gap-1.5 rounded-full px-3 py-1 text-sm transition-all duration-150",
                 isActive
@@ -65,15 +64,17 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
             </button>
           );
         })}
-      </div>
+      </nav>
 
       {/* Right controls */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-end gap-3">
         {/* Run Query */}
         <div className="flex flex-col items-center gap-0.5">
           <button
             onClick={onRunQuery}
             disabled={!canRun}
+            aria-label={isRunning ? "Query is running" : "Run query"}
+            aria-busy={isRunning}
             className={cn(
               "flex h-8 items-center gap-2 rounded-md bg-accent px-4 text-sm font-medium text-white transition-all",
               "hover:bg-accent-hover active:scale-[0.97]",
@@ -109,23 +110,5 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         </IconButton>
       </div>
     </header>
-  );
-}
-
-function HexLogo() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
-      <path
-        d="M10 1.5L17.794 6V14L10 18.5L2.206 14V6L10 1.5Z"
-        fill="var(--accent)"
-        fillOpacity="0.2"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-      />
-      <path
-        d="M10 5.5L14.5 8V13L10 15.5L5.5 13V8L10 5.5Z"
-        fill="var(--accent)"
-      />
-    </svg>
   );
 }

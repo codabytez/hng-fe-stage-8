@@ -12,7 +12,10 @@ import { RuleValue } from "./RuleValue";
 import { IconButton } from "../shared/IconButton";
 import { useQueryActions, useQueryStore } from "@/store/query-store";
 import { getSchema } from "@/lib/schemas";
-import type { Rule, RuleValue as RuleValueType } from "@/lib/query-engine/types";
+import type {
+  Rule,
+  RuleValue as RuleValueType,
+} from "@/lib/query-engine/types";
 
 interface ConditionRuleProps {
   rule: Rule;
@@ -23,11 +26,18 @@ interface ConditionRuleProps {
 }
 
 export const ConditionRule = React.memo(
-  function ConditionRule({ rule, groupId, error, dragListeners, dragAttributes }: ConditionRuleProps) {
+  function ConditionRule({
+    rule,
+    groupId,
+    error,
+    dragListeners,
+    dragAttributes,
+  }: ConditionRuleProps) {
     const { removeRule, updateRule } = useQueryActions();
     const schemaId = useQueryStore((s) => s.schemaId);
     const schema = getSchema(schemaId);
-    const selectedField = schema.fields.find((f) => f.name === rule.field) ?? null;
+    const selectedField =
+      schema.fields.find((f) => f.name === rule.field) ?? null;
 
     const handleFieldChange = useCallback(
       (field: string) => updateRule(groupId, rule.id, { field }),
@@ -35,8 +45,14 @@ export const ConditionRule = React.memo(
     );
 
     const handleOperatorChange = useCallback(
-      (operator: RuleValueType extends never ? never : Parameters<typeof updateRule>[2]["operator"]) =>
-        updateRule(groupId, rule.id, { operator: operator as Rule["operator"] }),
+      (
+        operator: RuleValueType extends never
+          ? never
+          : Parameters<typeof updateRule>[2]["operator"],
+      ) =>
+        updateRule(groupId, rule.id, {
+          operator: operator as Rule["operator"],
+        }),
       [groupId, rule.id, updateRule],
     );
 
@@ -96,7 +112,7 @@ export const ConditionRule = React.memo(
             tooltip="Remove rule"
             aria-label="Remove rule"
             onClick={handleRemove}
-            className="ml-auto shrink-0 text-text-muted hover:bg-destructive/10 hover:text-destructive"
+            className="text-text-muted hover:bg-destructive/10 hover:text-destructive ml-auto shrink-0"
           >
             <CloseCircle size={14} />
           </IconButton>
@@ -111,7 +127,7 @@ export const ConditionRule = React.memo(
               transition={{ duration: 0.15 }}
               role="alert"
               aria-live="polite"
-              className="rounded-b-md border-l-2 border-destructive bg-destructive-muted px-3 py-1.5 text-xs font-medium text-destructive"
+              className="border-destructive bg-destructive-muted text-destructive rounded-b-md px-3 py-1.5 text-xs font-medium"
             >
               {error}
             </motion.div>
