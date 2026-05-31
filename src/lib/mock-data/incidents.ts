@@ -34,7 +34,7 @@ export interface Incident {
   isEscalated: boolean;
 }
 
-function isoDate(rng: () => number, startYear = 2022, endYear = 2024): string {
+function isoDate(rng: () => number, startYear = 2022, endYear = 2026): string {
   const year = startYear + Math.floor(rng() * (endYear - startYear + 1));
   const month = String(Math.floor(rng() * 12) + 1).padStart(2, "0");
   const day = String(Math.floor(rng() * 28) + 1).padStart(2, "0");
@@ -53,7 +53,7 @@ export function generateIncidents(count = 203): Incident[] {
       if (!affected.includes(s)) affected.push(s);
     }
     const status = STATUSES[Math.floor(rng() * STATUSES.length)];
-    const resolved = ["resolved","closed"].includes(status) ? isoDate(rng, 2022, 2024) : null;
+    const resolved = ["resolved","closed"].includes(status) ? isoDate(rng, 2022, 2026) : null;
     return {
       id: `incident-${i + 1}`,
       title: TITLES[i % TITLES.length],

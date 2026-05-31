@@ -3,7 +3,7 @@
 import {
   Data, Clock, ArchiveBook,
   UserTag, Buildings, Flash,
-  ArrowLeft2, ArrowRight2,
+  ArrowLeft2,
 } from "iconsax-reactjs";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
@@ -112,16 +112,16 @@ function CollapsedRail({ onExpand }: { onExpand: () => void }) {
       transition={{ duration: 0.15 }}
       className="flex flex-1 flex-col items-center"
     >
-      {/* Expand button — h-14 aligns with the Header on the right */}
+      {/* Logo icon — h-14 aligns with the Header on the right, click to expand */}
       <div className="flex h-14 w-full shrink-0 items-center justify-center border-b border-border-subtle">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               onClick={onExpand}
               aria-label="Expand sidebar"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary"
+              className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-bg-elevated"
             >
-              <ArrowRight2 size={16} />
+              <HexLogo />
             </button>
           </TooltipTrigger>
           <TooltipContent side="right">Expand sidebar</TooltipContent>

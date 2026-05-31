@@ -67,8 +67,14 @@ export const ConditionGroup = React.memo(function ConditionGroup({
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
   );
 
-  const handleAddRule = useCallback(() => addRule(group.id), [group.id, addRule]);
-  const handleAddGroup = useCallback(() => addGroup(group.id), [group.id, addGroup]);
+  const handleAddRule = useCallback(
+    () => addRule(group.id),
+    [group.id, addRule],
+  );
+  const handleAddGroup = useCallback(
+    () => addGroup(group.id),
+    [group.id, addGroup],
+  );
   const handleRemove = useCallback(
     () => parentGroupId && removeGroup(parentGroupId, group.id),
     [parentGroupId, group.id, removeGroup],
@@ -165,7 +171,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
               {validation?.getError(group.id) && (
                 <p
                   role="alert"
-                  className="rounded-sm border-l-2 border-destructive bg-destructive-muted px-3 py-1.5 text-xs font-medium text-destructive"
+                  className="border-destructive bg-destructive-muted text-destructive rounded-sm border-l-2 px-3 py-1.5 text-xs font-medium"
                 >
                   {validation.getError(group.id)}
                 </p>

@@ -31,7 +31,7 @@ export interface Agent {
   languages: string[];
 }
 
-function isoDate(rng: () => number, startYear = 2020, endYear = 2024): string {
+function isoDate(rng: () => number, startYear = 2020, endYear = 2026): string {
   const year = startYear + Math.floor(rng() * (endYear - startYear + 1));
   const month = String(Math.floor(rng() * 12) + 1).padStart(2, "0");
   const day = String(Math.floor(rng() * 28) + 1).padStart(2, "0");
