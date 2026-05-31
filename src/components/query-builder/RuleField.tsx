@@ -1,8 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowDown2, SearchNormal1, TextalignLeft, Hashtag, RowHorizontal, ToggleOffCircle, CalendarEdit, Bezier } from "iconsax-reactjs";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import {
+  ArrowDown2,
+  SearchNormal1,
+  TextalignLeft,
+  Hashtag,
+  RowHorizontal,
+  ToggleOffCircle,
+  CalendarEdit,
+  Bezier,
+} from "iconsax-reactjs";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { SchemaField, FieldType } from "@/lib/query-engine/types";
 
@@ -16,7 +29,12 @@ const TYPE_ICONS: Record<FieldType, React.ReactNode> = {
 };
 
 const TYPE_LABELS: Record<FieldType, string> = {
-  string: "text", number: "#", enum: "≡", boolean: "⏻", date: "date", array: "[]",
+  string: "text",
+  number: "#",
+  enum: "≡",
+  boolean: "⏻",
+  date: "date",
+  array: "[]",
 };
 
 interface RuleFieldProps {
@@ -41,7 +59,7 @@ export function RuleField({ value, onChange, fields }: RuleFieldProps) {
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "flex h-[30px] w-40 shrink-0 items-center justify-between gap-1 rounded-md border border-border-default bg-bg-surface px-2 text-sm transition-colors",
+            "border-border-default bg-bg-surface flex h-7.5 w-40 shrink-0 items-center justify-between gap-1 rounded-md border px-2 text-sm transition-colors",
             open ? "border-accent" : "hover:border-border-strong",
             selected ? "text-text-primary" : "text-text-muted",
           )}
@@ -49,40 +67,55 @@ export function RuleField({ value, onChange, fields }: RuleFieldProps) {
         >
           <span className="flex items-center gap-1.5 truncate">
             {selected && TYPE_ICONS[selected.type]}
-            <span className="truncate">{selected?.label ?? "Select field…"}</span>
+            <span className="truncate">
+              {selected?.label ?? "Select field…"}
+            </span>
           </span>
-          <ArrowDown2 size={10} className="shrink-0 text-text-muted" />
+          <ArrowDown2 size={10} className="text-text-muted shrink-0" />
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-56 border-border-default bg-bg-elevated p-1" align="start">
-        <div className="flex items-center gap-1 rounded-md border border-border-default bg-bg-surface px-2 py-1 mb-1">
+      <PopoverContent
+        className="border-border-default bg-bg-elevated w-56 p-1"
+        align="start"
+      >
+        <div className="border-border-default bg-bg-surface mb-1 flex items-center gap-1 rounded-md border px-2 py-1">
           <SearchNormal1 size={11} className="text-text-muted" />
           <input
             autoFocus
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search fields…"
-            className="flex-1 bg-transparent text-xs text-text-primary placeholder:text-text-muted outline-none"
+            className="text-text-primary placeholder:text-text-muted flex-1 bg-transparent text-xs outline-none"
           />
         </div>
         <div className="max-h-52 overflow-y-auto">
           {filtered.length === 0 && (
-            <p className="py-2 text-center text-xs text-text-muted">No fields found</p>
+            <p className="text-text-muted py-2 text-center text-xs">
+              No fields found
+            </p>
           )}
           {filtered.map((field) => (
             <button
               key={field.name}
-              onClick={() => { onChange(field.name); setOpen(false); setSearch(""); }}
+              onClick={() => {
+                onChange(field.name);
+                setOpen(false);
+                setSearch("");
+              }}
               className={cn(
-                "flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm hover:bg-bg-hover",
-                value === field.name ? "bg-accent-subtle text-accent" : "text-text-primary",
+                "hover:bg-bg-hover flex w-full items-center justify-between rounded-sm px-2 py-1.5 text-sm",
+                value === field.name
+                  ? "bg-accent-subtle text-accent"
+                  : "text-text-primary",
               )}
             >
               <span className="flex items-center gap-2">
                 {TYPE_ICONS[field.type]}
                 {field.label}
               </span>
-              <span className="text-2xs text-text-muted font-mono">{TYPE_LABELS[field.type]}</span>
+              <span className="text-2xs text-text-muted font-mono">
+                {TYPE_LABELS[field.type]}
+              </span>
             </button>
           ))}
         </div>
