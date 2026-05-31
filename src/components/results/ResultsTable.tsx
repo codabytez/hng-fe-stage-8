@@ -21,7 +21,7 @@ function formatCell(value: unknown): React.ReactNode {
     return (
       <span
         className={cn(
-          "rounded-sm px-1.5 py-0.5 text-2xs font-medium",
+          "text-2xs rounded-sm px-1.5 py-0.5 font-medium",
           value
             ? "bg-success-muted text-success"
             : "bg-destructive-muted text-destructive",
@@ -34,7 +34,8 @@ function formatCell(value: unknown): React.ReactNode {
   if (Array.isArray(value)) {
     return (
       <span className="text-text-muted">
-        [{value.slice(0, 3).join(", ")}{value.length > 3 ? "…" : ""}]
+        [{value.slice(0, 3).join(", ")}
+        {value.length > 3 ? "…" : ""}]
       </span>
     );
   }
@@ -46,7 +47,7 @@ function formatCell(value: unknown): React.ReactNode {
   }
   if (typeof value === "string" && value.length > 30) {
     return (
-      <span title={value} className="max-w-[200px] truncate block">
+      <span title={value} className="block max-w-50 truncate">
         {value}
       </span>
     );
@@ -72,7 +73,7 @@ export const ResultsTable = React.memo(function ResultsTable({
               <th
                 key={col}
                 onClick={() => onSort(col)}
-                className="cursor-pointer select-none px-3 py-2 text-left text-xs font-medium tracking-wide text-text-muted hover:text-text-primary"
+                className="text-text-muted hover:text-text-primary cursor-pointer px-3 py-2 text-left text-xs font-medium tracking-wide select-none"
               >
                 <span className="flex items-center gap-1">
                   {col}
@@ -96,10 +97,10 @@ export const ResultsTable = React.memo(function ResultsTable({
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: Math.min(i, 10) * 0.03, duration: 0.15 }}
-              className="border-b border-border-subtle hover:bg-bg-hover"
+              className="border-border-subtle hover:bg-bg-hover border-b"
             >
               {columns.map((col) => (
-                <td key={col} className="px-3 py-2 text-sm text-text-primary">
+                <td key={col} className="text-text-primary px-3 py-2 text-sm">
                   {formatCell(row[col])}
                 </td>
               ))}

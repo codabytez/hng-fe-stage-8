@@ -9,3 +9,4 @@ export * from "./ComplexityBanner";
 export * from "./RuleField";
 export * from "./RuleOperator";
 export * from "./RuleValue";
+export * from "./SortableCondition";
