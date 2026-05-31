@@ -1,16 +1,28 @@
 "use client";
 
 import React, { useCallback, useMemo } from "react";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 import { motion, AnimatePresence } from "motion/react";
 import { getDepthColor, groupBodyVariants, groupVariants } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { countConditions } from "@/lib/query-engine/tree-utils";
 import { GroupToolbar } from "./GroupToolbar";
-import { ConditionRule } from "./ConditionRule";
+import { SortableCondition } from "./SortableCondition";
 import { AddRuleButton, AddGroupButton } from "./AddRuleButton";
 import { useQueryActions } from "@/store/query-store";
 import { useUIStore } from "@/store/ui-store";
-import type { Group, Rule, Condition } from "@/lib/query-engine/types";
+import type { Group, Condition } from "@/lib/query-engine/types";
 
 interface ValidationContext {
   getError: (id: string) => string | undefined;
@@ -24,6 +36,8 @@ interface ConditionGroupProps {
   parentGroupId?: string;
   groupIndex?: number;
   validation?: ValidationContext;
+  dragListeners?: Record<string, unknown>;
+  dragAttributes?: Record<string, unknown>;
 }
 
 export const ConditionGroup = React.memo(function ConditionGroup({
@@ -32,14 +46,11 @@ export const ConditionGroup = React.memo(function ConditionGroup({
   parentGroupId,
   groupIndex = 0,
   validation,
+  dragListeners,
+  dragAttributes,
 }: ConditionGroupProps) {
-  const {
-    addRule,
-    addGroup,
-    removeGroup,
-    updateGroupLogic,
-  } = useQueryActions();
-
+  const { addRule, addGroup, removeGroup, updateGroupLogic, reorderCondition } =
+    useQueryActions();
   const isCollapsed = useUIStore((s) => !!s.collapsedGroups[group.id]);
   const toggleGroupCollapse = useUIStore((s) => s.toggleGroupCollapse);
 
@@ -47,6 +58,14 @@ export const ConditionGroup = React.memo(function ConditionGroup({
   const depthColor = useMemo(() => getDepthColor(depth), [depth]);
   const conditionCount = useMemo(() => countConditions(group), [group]);
   const groupLabel = `Group ${GROUP_LABELS[groupIndex % 26]}`;
+  const conditionIds = useMemo(
+    () => group.conditions.map((c) => c.id),
+    [group.conditions],
+  );
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+  );
 
   const handleAddRule = useCallback(() => addRule(group.id), [group.id, addRule]);
   const handleAddGroup = useCallback(() => addGroup(group.id), [group.id, addGroup]);
@@ -63,6 +82,19 @@ export const ConditionGroup = React.memo(function ConditionGroup({
     [group.id, toggleGroupCollapse],
   );
 
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event;
+      if (!over || active.id === over.id) return;
+      const fromIndex = group.conditions.findIndex((c) => c.id === active.id);
+      const toIndex = group.conditions.findIndex((c) => c.id === over.id);
+      if (fromIndex !== -1 && toIndex !== -1) {
+        reorderCondition(group.id, fromIndex, toIndex);
+      }
+    },
+    [group.conditions, group.id, reorderCondition],
+  );
+
   const containerStyle = {
     borderLeftColor: depthColor,
     backgroundColor: `color-mix(in srgb, ${depthColor} 5%, transparent)`,
@@ -76,10 +108,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
       animate={isRoot ? undefined : "visible"}
       exit={isRoot ? undefined : "exit"}
       layout
-      className={cn(
-        "rounded-md border border-l-[3px] p-3",
-        "mb-2 last:mb-0",
-      )}
+      className={cn("rounded-md border border-l-[3px] p-3", "mb-2 last:mb-0")}
       style={containerStyle}
     >
       <GroupToolbar
@@ -95,9 +124,10 @@ export const ConditionGroup = React.memo(function ConditionGroup({
         onAddRule={handleAddRule}
         onAddGroup={handleAddGroup}
         onRemove={handleRemove}
+        dragListeners={dragListeners}
+        dragAttributes={dragAttributes}
       />
 
-      {/* Group body */}
       <AnimatePresence initial={false}>
         {!isCollapsed && (
           <motion.div
@@ -108,32 +138,30 @@ export const ConditionGroup = React.memo(function ConditionGroup({
             className="overflow-hidden"
           >
             <div className="mt-2 flex flex-col gap-2">
-              <AnimatePresence mode="popLayout">
-                {group.conditions.map((condition: Condition, i: number) => {
-                  if (condition.type === "rule") {
-                    return (
-                      <ConditionRule
+              <DndContext
+                sensors={sensors}
+                collisionDetection={closestCenter}
+                onDragEnd={handleDragEnd}
+              >
+                <SortableContext
+                  items={conditionIds}
+                  strategy={verticalListSortingStrategy}
+                >
+                  <AnimatePresence mode="popLayout">
+                    {group.conditions.map((condition: Condition, i: number) => (
+                      <SortableCondition
                         key={condition.id}
-                        rule={condition as Rule}
+                        condition={condition}
                         groupId={group.id}
-                        error={validation?.getError(condition.id)}
+                        index={i}
+                        depth={depth}
+                        validation={validation}
                       />
-                    );
-                  }
-                  return (
-                    <ConditionGroup
-                      key={condition.id}
-                      group={condition as Group}
-                      depth={depth + 1}
-                      parentGroupId={group.id}
-                      groupIndex={i}
-                      validation={validation}
-                    />
-                  );
-                })}
-              </AnimatePresence>
+                    ))}
+                  </AnimatePresence>
+                </SortableContext>
+              </DndContext>
 
-              {/* Group-level error */}
               {validation?.getError(group.id) && (
                 <p
                   role="alert"
@@ -143,7 +171,6 @@ export const ConditionGroup = React.memo(function ConditionGroup({
                 </p>
               )}
 
-              {/* Footer add buttons */}
               <div className="flex gap-2">
                 <AddRuleButton onClick={handleAddRule} size="sm" />
                 <AddGroupButton onClick={handleAddGroup} size="sm" />

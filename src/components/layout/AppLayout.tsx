@@ -5,10 +5,15 @@ import { Sidebar } from "../sidebar/Sidebar";
 import { QueryBuilder } from "../query-builder/QueryBuilder";
 import { PreviewPanel } from "../preview/PreviewPanel";
 import { ResultsDrawer } from "../results/ResultsDrawer";
+import { ShortcutsModal } from "../modals/ShortcutsModal";
+import { ExportModal } from "../modals/ExportModal";
+import { ImportModal } from "../modals/ImportModal";
 import { useQueryExecution } from "@/hooks/useQueryExecution";
+import { useKeyboardShortcuts } from "@/hooks/useKeyboardShortcuts";
 
 export function AppLayout() {
   const { run, isRunning } = useQueryExecution();
+  useKeyboardShortcuts({ onRunQuery: run });
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-bg-base">
@@ -23,6 +28,9 @@ export function AppLayout() {
           <ResultsDrawer />
         </main>
       </div>
+      <ShortcutsModal />
+      <ExportModal />
+      <ImportModal />
     </div>
   );
 }

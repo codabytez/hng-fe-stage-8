@@ -96,10 +96,7 @@ export const ConditionRule = React.memo(
             tooltip="Remove rule"
             aria-label="Remove rule"
             onClick={handleRemove}
-            className={cn(
-              "ml-auto shrink-0 opacity-0 transition-opacity group-hover/rule:opacity-100",
-              "hover:bg-destructive/10 hover:text-destructive",
-            )}
+            className="ml-auto shrink-0 text-text-muted hover:bg-destructive/10 hover:text-destructive"
           >
             <CloseCircle size={14} />
           </IconButton>
