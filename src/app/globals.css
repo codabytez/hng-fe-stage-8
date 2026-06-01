@@ -280,6 +280,12 @@ body {
   border-radius: 4px;
 }
 
+/* inputs manage their own focus border — suppress the outline ring */
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+}
+
 /* ============================================================
    CUSTOM SCROLLBAR
    ============================================================ */

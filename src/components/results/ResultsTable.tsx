@@ -66,7 +66,7 @@ export const ResultsTable = React.memo(function ResultsTable({
 
   return (
     <div className="overflow-auto">
-      <table className="w-full table-fixed border-collapse text-sm">
+      <table className="min-w-full w-max border-collapse text-sm">
         <thead>
           <tr className="bg-bg-elevated">
             {columns.map((col) => (
