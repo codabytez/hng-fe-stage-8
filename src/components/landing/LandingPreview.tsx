@@ -20,7 +20,7 @@ export function LandingPreview() {
             <span className="bg-accent/70 h-3 w-3 rounded-full" />
           </div>
           <div className="bg-bg-surface text-text-muted flex-1 rounded-md px-4 py-1 text-center font-mono text-xs">
-            hng-fe-stage-8.vercel.app/app
+            nexusdbx.vercel.app/app
           </div>
         </div>
 
