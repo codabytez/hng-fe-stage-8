@@ -53,7 +53,7 @@ export function LandingHero() {
           Launch Explorer
         </Link>
         <a
-          href="https://github.com/codabytez/hng-fe-stage-8"
+          href="https://github.com/codabytez/nexusdb-explorer"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 rounded-md border border-border-default bg-bg-elevated px-6 py-3 text-base font-semibold text-text-primary transition-all hover:bg-bg-overlay"
