@@ -8,9 +8,10 @@ import { incidents } from "@/lib/mock-data/incidents";
 import { useQueryStore } from "@/store/query-store";
 import { useUIStore } from "@/store/ui-store";
 import { useHistoryStore } from "@/store/history-store";
+import { useCustomDataStore } from "@/store/custom-data-store";
 import { countConditions } from "@/lib/query-engine/tree-utils";
 
-const MOCK_DATA: Record<string, Record<string, unknown>[]> = {
+const BUILTIN_DATA: Record<string, Record<string, unknown>[]> = {
   agents: agents as unknown as Record<string, unknown>[],
   cities: cities as unknown as Record<string, unknown>[],
   incidents: incidents as unknown as Record<string, unknown>[],
@@ -32,6 +33,7 @@ export function useQueryExecution() {
   const schemaId = useQueryStore((s) => s.schemaId);
   const setResultsOpen = useUIStore((s) => s.setResultsOpen);
   const addHistory = useHistoryStore((s) => s.addHistory);
+  const customDatasets = useCustomDataStore((s) => s.datasets);
 
   const [isRunning, setIsRunning] = useState(false);
   const [results, setResults] = useState<QueryResults | null>(null);
@@ -47,7 +49,10 @@ export function useQueryExecution() {
     // Simulated 600ms delay
     await new Promise((res) => setTimeout(res, 600));
 
-    const data = MOCK_DATA[schemaId] ?? [];
+    const data =
+      BUILTIN_DATA[schemaId] ??
+      customDatasets.find((d) => d.schema.id === schemaId)?.data ??
+      [];
     const matched = executeQuery(tree, data);
 
     setAllMatched(matched);
@@ -75,7 +80,7 @@ export function useQueryExecution() {
       conditionCount: countConditions(tree),
       resultCount: matched.length,
     });
-  }, [tree, schemaId, pageSize, setResultsOpen, addHistory]);
+  }, [tree, schemaId, pageSize, setResultsOpen, addHistory, customDatasets]);
 
   const goToPage = useCallback(
     (newPage: number) => {

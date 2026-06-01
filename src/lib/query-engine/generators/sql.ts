@@ -52,10 +52,14 @@ function generateRuleSQL(rule: Rule): string {
       const [a, b] = value as [unknown, unknown];
       return `${field} NOT BETWEEN ${sqlVal(a)} AND ${sqlVal(b)}`;
     }
-    case "in":
-      return `${field} IN (${(value as unknown[]).map(sqlVal).join(", ")})`;
-    case "not_in":
-      return `${field} NOT IN (${(value as unknown[]).map(sqlVal).join(", ")})`;
+    case "in": {
+      const items = Array.isArray(value) ? value : [];
+      return `${field} IN (${items.map(sqlVal).join(", ") || "NULL"})`;
+    }
+    case "not_in": {
+      const items = Array.isArray(value) ? value : [];
+      return `${field} NOT IN (${items.map(sqlVal).join(", ") || "NULL"})`;
+    }
     case "is_null": return `${field} IS NULL`;
     case "is_not_null": return `${field} IS NOT NULL`;
     case "is_empty": return `${field} = ''`;

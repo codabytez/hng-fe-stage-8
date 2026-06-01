@@ -49,12 +49,12 @@ export function EnumSelect({
         align="start"
       >
         <div className="border-border-default bg-bg-surface mb-1 flex items-center gap-1 rounded-md border px-2 py-1">
-          <SearchNormal1 size={11} className="text-text-muted" />
+          <SearchNormal1 size={11} className="text-text-muted shrink-0" />
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search…"
-            className="text-text-primary placeholder:text-text-muted flex-1 bg-transparent text-xs outline-none"
+            className="text-text-primary placeholder:text-text-muted flex-1 bg-transparent text-xs outline-none focus:outline-none focus-visible:outline-none"
           />
         </div>
         <div className="max-h-48 overflow-y-auto">

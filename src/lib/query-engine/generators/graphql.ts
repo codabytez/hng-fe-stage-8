@@ -51,8 +51,8 @@ function generateRuleGQL(rule: Rule): string {
       const [a, b] = value as [unknown, unknown];
       return `${field}: { _gte: ${gqlVal(a)}, _lte: ${gqlVal(b)} }`;
     }
-    case "in": return `${field}: { _in: [${(value as unknown[]).map(gqlVal).join(", ")}] }`;
-    case "not_in": return `${field}: { _nin: [${(value as unknown[]).map(gqlVal).join(", ")}] }`;
+    case "in": return `${field}: { _in: [${(Array.isArray(value) ? value : []).map(gqlVal).join(", ")}] }`;
+    case "not_in": return `${field}: { _nin: [${(Array.isArray(value) ? value : []).map(gqlVal).join(", ")}] }`;
     case "is_null": return `${field}: { _is_null: true }`;
     case "is_not_null": return `${field}: { _is_null: false }`;
     case "is_true": return `${field}: { _eq: true }`;
