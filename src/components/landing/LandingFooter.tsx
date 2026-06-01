@@ -12,7 +12,7 @@ export function LandingFooter() {
           {[
             { label: "GitHub", href: "https://github.com/codabytez/hng-fe-stage-8" },
             { label: "Live App", href: "/app" },
-            { label: "README", href: "https://github.com/codabytez/hng-fe-stage-8#readme" },
+            { label: "Docs", href: "/docs" },
           ].map((l) => (
             <a
               key={l.label}
@@ -23,6 +23,16 @@ export function LandingFooter() {
             </a>
           ))}
         </div>
+      </div>
+
+      {/* Easter egg */}
+      <div className="mt-6 text-center">
+        <a
+          href="/void"
+          className="font-mono text-xs text-text-muted/30 transition-colors hover:text-text-muted"
+        >
+          -- SELECT * FROM pages WHERE path = &apos;/void&apos; <span className="text-destructive/40">→ 0 rows</span>
+        </a>
       </div>
     </footer>
   );

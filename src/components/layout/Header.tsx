@@ -62,7 +62,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
           <button
             onClick={toggleSidebar}
             aria-label="Toggle sidebar"
-            className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary flex h-8 w-8 items-center justify-center rounded-md transition-colors md:hidden"
+            className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary flex h-8 w-8 items-center justify-center rounded-md transition-colors lg:hidden"
           >
             <HamburgerMenu size={18} />
           </button>
@@ -139,27 +139,29 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
               {isRunning ? (
                 <>
                   <Spinner size="sm" className="border-t-white" />
-                  <span>Running…</span>
+                  <span className="hidden sm:inline">Running…</span>
                 </>
               ) : (
                 <>
                   <PlayCircle size={14} variant="Bold" />
-                  <span>Run Query</span>
+                  <span className="hidden sm:inline">Run Query</span>
                 </>
               )}
             </button>
-            <Kbd className="text-2xs">Ctrl+↵</Kbd>
+            <Kbd className="text-2xs hidden sm:flex">Ctrl+↵</Kbd>
           </div>
 
-          {/* Theme toggle */}
-          <ThemeToggle />
+          {/* Theme toggle — sidebar handles this below lg */}
+          <span className="hidden lg:flex">
+            <ThemeToggle />
+          </span>
 
-          {/* Help */}
+          {/* Help — hidden on mobile */}
           <IconButton
             tooltip="Keyboard shortcuts"
             aria-label="Keyboard shortcuts"
             onClick={() => setShortcutModalOpen(true)}
-            className="rounded-full"
+            className="hidden rounded-full sm:flex"
           >
             <span className="text-sm font-medium">?</span>
           </IconButton>

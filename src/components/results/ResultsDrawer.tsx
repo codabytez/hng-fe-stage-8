@@ -98,7 +98,7 @@ export function ResultsDrawer({
       {resultsOpen && (
         <div
           onPointerDown={handlePointerDown}
-          className="group flex h-1.5 w-full cursor-row-resize items-center justify-center bg-transparent hover:bg-accent/10"
+          className="group flex h-1.5 w-full cursor-row-resize touch-none items-center justify-center bg-transparent hover:bg-accent/10"
           aria-label="Resize results panel"
         >
           <div className="h-0.5 w-10 rounded-full bg-border-strong transition-colors group-hover:bg-accent" />

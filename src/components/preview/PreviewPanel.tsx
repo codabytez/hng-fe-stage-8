@@ -69,7 +69,7 @@ export function PreviewPanel() {
   }, [currentCode, schemaId, activeFormat]);
 
   return (
-    <aside className="border-border-subtle bg-bg-surface flex w-90 shrink-0 flex-col gap-3 overflow-hidden border-l-2 p-4">
+    <aside className="border-border-subtle bg-bg-surface flex w-full shrink-0 flex-col gap-3 overflow-hidden border-l-0 p-4 sm:w-90 sm:border-l-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-text-primary text-lg font-semibold">
