@@ -4,7 +4,7 @@ import { useState } from "react";
 import { TickCircle, CloseCircle, Refresh, Trash } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { useHistoryStore, type SavedPreset } from "@/store/history-store";
-import { useQueryActions } from "@/store/query-store";
+import { useQueryActions, useQueryStore } from "@/store/query-store";
 import { useUIStore } from "@/store/ui-store";
 
 export function SavePresetInput({ onClose }: { onClose: () => void }) {
@@ -12,11 +12,12 @@ export function SavePresetInput({ onClose }: { onClose: () => void }) {
   const [error, setError] = useState("");
   const savePreset = useHistoryStore((s) => s.savePreset);
   const format = useUIStore((s) => s.activeFormat);
+  const tree = useQueryStore((s) => s.tree);
+  const schemaId = useQueryStore((s) => s.schemaId);
 
   function handleSave() {
     if (!name.trim()) return;
-    // Note: tree and schemaId accessed via store in real use
-    const result = savePreset(name.trim(), { id: "root", type: "group", logic: "AND", conditions: [] }, "agents", format);
+    const result = savePreset(name.trim(), tree, schemaId, format);
     if (!result.success) {
       setError(result.error ?? "");
       return;
@@ -102,9 +103,11 @@ export function PresetsSection() {
       {presets.length === 0 && !showInput && (
         <p className="py-2 text-center text-xs text-text-muted">No saved presets</p>
       )}
-      {presets.map((preset) => (
-        <PresetItem key={preset.id} preset={preset} />
-      ))}
+      <div className="max-h-48 overflow-y-auto">
+        {presets.map((preset) => (
+          <PresetItem key={preset.id} preset={preset} />
+        ))}
+      </div>
     </div>
   );
 }

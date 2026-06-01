@@ -24,9 +24,9 @@ export const SchemaCard = React.memo(function SchemaCard() {
             key={schema.id}
             onClick={() => setSchema(schema.id)}
             className={cn(
-              "relative flex items-center justify-between rounded-md border px-3 py-2 text-left transition-all duration-150",
+              "relative flex items-center justify-between rounded-r-md border px-3 py-2 text-left transition-all duration-150",
               isActive
-                ? "border-accent bg-accent-subtle before:bg-accent before:absolute before:inset-y-0 before:left-0 before:w-0.75 before:rounded-l-md"
+                ? "border-accent bg-accent-subtle before:bg-accent before:absolute before:inset-y-0 before:left-0 before:w-0.75"
                 : "border-border-default bg-bg-elevated hover:border-border-strong hover:bg-bg-hover",
             )}
           >
