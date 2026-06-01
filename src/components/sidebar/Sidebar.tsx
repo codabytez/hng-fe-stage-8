@@ -6,6 +6,7 @@ import {
   ArrowLeft2,
 } from "iconsax-reactjs";
 import { AnimatePresence, motion } from "motion/react";
+import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { SidebarSection } from "./SidebarSection";
 import { SchemaCard } from "./SchemaCard";
@@ -14,6 +15,11 @@ import { PresetsSection } from "./PresetItem";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useUIStore } from "@/store/ui-store";
 import { useQueryStore, useQueryActions } from "@/store/query-store";
+
+const ThemeToggle = dynamic(
+  () => import("@/components/layout/ThemeToggle").then((m) => m.ThemeToggle),
+  { ssr: false },
+);
 
 const SCHEMAS = [
   { id: "agents", label: "Agents", Icon: UserTag },
@@ -62,6 +68,12 @@ export function Sidebar() {
                 </TooltipTrigger>
                 <TooltipContent side="right">Collapse sidebar</TooltipContent>
               </Tooltip>
+            </div>
+
+            {/* Theme toggle — mobile only, lives here since header hides it */}
+            <div className="flex items-center justify-between border-b border-border-subtle px-4 py-2 lg:hidden">
+              <span className="text-xs text-text-muted">Theme</span>
+              <ThemeToggle />
             </div>
 
             {/* Sections */}

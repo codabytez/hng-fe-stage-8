@@ -40,7 +40,7 @@ export function AppLayout() {
       <motion.div
         animate={{ width: sidebarOpen ? 240 : 48 }}
         transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-        className="hidden shrink-0 overflow-hidden md:block"
+        className="hidden shrink-0 overflow-hidden lg:block"
       >
         <Sidebar />
       </motion.div>
@@ -55,7 +55,7 @@ export function AppLayout() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 z-40 bg-black/60 md:hidden"
+              className="fixed inset-0 z-40 bg-black/60 lg:hidden"
               aria-hidden
               onClick={toggleSidebar}
             />
@@ -65,7 +65,7 @@ export function AppLayout() {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-              className="fixed inset-y-0 left-0 z-50 md:hidden"
+              className="fixed inset-y-0 left-0 z-50 lg:hidden"
             >
               <Sidebar />
             </motion.div>

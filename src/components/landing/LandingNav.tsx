@@ -2,8 +2,14 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { HamburgerMenu, CloseCircle } from "iconsax-reactjs";
 import { motion, AnimatePresence } from "motion/react";
+
+const ThemeToggle = dynamic(
+  () => import("@/components/layout/ThemeToggle").then((m) => m.ThemeToggle),
+  { ssr: false },
+);
 
 function HexLogo() {
   return (
@@ -17,7 +23,7 @@ function HexLogo() {
 const LINKS = [
   { label: "Features", href: "#features" },
   { label: "Schemas", href: "#schemas" },
-  { label: "Docs", href: "#docs" },
+  { label: "Docs", href: "/docs" },
 ];
 
 export function LandingNav() {
@@ -40,6 +46,7 @@ export function LandingNav() {
               {l.label}
             </a>
           ))}
+          <ThemeToggle />
           <Link
             href="/app"
             className="rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-accent-hover active:scale-95"
@@ -79,6 +86,10 @@ export function LandingNav() {
                   {l.label}
                 </a>
               ))}
+              <div className="mt-1 flex items-center gap-2 px-3 py-2">
+                <span className="text-sm text-text-muted">Theme</span>
+                <ThemeToggle />
+              </div>
               <Link
                 href="/app"
                 className="mt-2 rounded-md bg-accent px-4 py-2.5 text-center text-sm font-semibold text-white"

@@ -35,7 +35,7 @@ export function LandingCTA() {
             Start Exploring Now
           </Link>
           <a
-            href="https://github.com/codabytez/hng-fe-stage-8#readme"
+            href="/docs"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 rounded-md border border-border-default bg-transparent px-6 py-3 text-base font-semibold text-text-primary transition-all hover:bg-bg-elevated"

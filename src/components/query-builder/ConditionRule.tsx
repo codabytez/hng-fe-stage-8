@@ -78,7 +78,7 @@ export const ConditionRule = React.memo(
       >
         <div
           className={cn(
-            "group/rule flex items-center gap-2 rounded-md border px-3 py-2",
+            "group/rule flex flex-wrap items-center gap-2 rounded-md border px-3 py-2",
             hasError
               ? "border-destructive bg-destructive-muted"
               : "border-border-default bg-bg-elevated",
@@ -99,7 +99,7 @@ export const ConditionRule = React.memo(
             disabled={!rule.field}
           />
 
-          <div className="flex flex-1 items-center">
+          <div className="flex min-w-0 flex-1 basis-full items-center sm:basis-auto">
             <RuleValue
               field={selectedField}
               operator={rule.operator}
