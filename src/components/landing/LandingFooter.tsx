@@ -10,7 +10,7 @@ export function LandingFooter() {
         </div>
         <div className="flex items-center gap-6">
           {[
-            { label: "GitHub", href: "https://github.com/codabytez/hng-fe-stage-8" },
+            { label: "GitHub", href: "https://github.com/codabytez/nexusdb-explorer" },
             { label: "Live App", href: "/app" },
             { label: "Docs", href: "/docs" },
           ].map((l) => (

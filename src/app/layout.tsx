@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://hng-fe-stage-8.vercel.app";
+  process.env.NEXT_PUBLIC_APP_URL ?? "https://nexusdbx.vercel.app";
 
 export const metadata: Metadata = {
   title: {

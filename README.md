@@ -4,7 +4,7 @@
 
 A visual query builder for SQL, MongoDB, and GraphQL. Build complex nested database filters through a graphical interface — no raw query syntax required.
 
-**Live:** [hng-fe-stage-8.vercel.app](https://hng-fe-stage-8.vercel.app) &nbsp;·&nbsp; **Docs:** [hng-fe-stage-8.vercel.app/docs](https://hng-fe-stage-8.vercel.app/docs)
+**Live:** [nexusdbx.vercel.app](https://nexusdbx.vercel.app) &nbsp;·&nbsp; **Docs:** [nexusdbx.vercel.app/docs](https://nexusdbx.vercel.app/docs)
 
 ---
 
