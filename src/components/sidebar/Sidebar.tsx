@@ -39,7 +39,7 @@ export function Sidebar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="flex flex-1 flex-col overflow-y-auto"
+            className="flex flex-1 flex-col overflow-hidden"
           >
             {/* Logo row — h-14 aligns with the Header on the right */}
             <div className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle px-4">
@@ -65,7 +65,7 @@ export function Sidebar() {
             </div>
 
             {/* Sections */}
-            <div className="flex flex-col px-3 pb-4">
+            <div className="flex flex-col overflow-hidden px-3 pb-4">
               <SidebarSection
                 title="Schema"
                 defaultOpen

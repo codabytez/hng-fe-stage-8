@@ -69,7 +69,7 @@ export function PreviewPanel() {
   }, [currentCode, schemaId, activeFormat]);
 
   return (
-    <aside className="border-border-subtle bg-bg-surface flex w-90 shrink-0 flex-col gap-3 overflow-y-auto border-l p-4">
+    <aside className="border-border-subtle bg-bg-surface flex w-90 shrink-0 flex-col gap-3 overflow-hidden border-l-2 p-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h2 className="text-text-primary text-lg font-semibold">
@@ -120,21 +120,21 @@ export function PreviewPanel() {
         ))}
       </div>
 
-      {/* Code block */}
+      {/* Code block — flex-1 + min-h-0 so it fills remaining space; pre inside scrolls */}
       <motion.div
         key={activeFormat + schemaId}
         animate={{ opacity: [0.6, 1] }}
         transition={{ duration: 0.15 }}
-        className="flex-1"
+        className="min-h-0 flex-1"
       >
         <CodeBlock
           code={currentCode}
           language={currentLang}
-          className="min-h-50 flex-1"
+          className="h-full"
         />
       </motion.div>
 
-      {/* Complexity */}
+      {/* Complexity — always pinned at bottom */}
       <ComplexityIndicator group={tree} />
     </aside>
   );

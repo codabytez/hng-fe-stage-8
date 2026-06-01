@@ -10,8 +10,7 @@
 
 @theme {
   /* Fonts */
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), "JetBrains Mono", "Fira Code", monospace;
+  --font-display: var(--font-display), system-ui, sans-serif;
 
   /* Font sizes */
   --font-size-2xs: 10px;
@@ -261,12 +260,10 @@ html {
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
-  font-family: var(--font-sans);
+  font-family: var(--font-display);
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
-  height: 100vh;
   margin: 0;
 }
 

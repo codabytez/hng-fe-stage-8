@@ -45,9 +45,11 @@ export function HistorySection() {
 
   return (
     <div className="flex flex-col gap-0.5">
-      {history.map((entry) => (
-        <HistoryItem key={entry.id} entry={entry} />
-      ))}
+      <div className="max-h-48 overflow-y-auto">
+        {history.map((entry) => (
+          <HistoryItem key={entry.id} entry={entry} />
+        ))}
+      </div>
       <button
         onClick={clearHistory}
         className={cn("mt-1 text-left text-xs text-destructive hover:underline")}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useRef, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { ResultsHeader } from "./ResultsHeader";
 import { ResultsTable } from "./ResultsTable";
@@ -9,6 +9,11 @@ import { ResultsLoadingState } from "./ResultsLoadingState";
 import { ResultsEmptyState } from "./ResultsEmptyState";
 import { useUIStore } from "@/store/ui-store";
 import type { QueryResults, PageSize } from "@/hooks/useQueryExecution";
+
+const HEADER_H = 40;
+const MIN_H = 220;
+const MAX_H = typeof window !== "undefined" ? Math.round(window.innerHeight * 0.65) : 520;
+const DEFAULT_H = typeof window !== "undefined" ? Math.round(window.innerHeight * 0.35) : 280;
 
 interface ResultsDrawerProps {
   isRunning: boolean;
@@ -36,6 +41,34 @@ export function ResultsDrawer({
   toggleSort,
 }: ResultsDrawerProps) {
   const resultsOpen = useUIStore((s) => s.resultsOpen);
+  const setResultsOpen = useUIStore((s) => s.setResultsOpen);
+  const [drawerHeight, setDrawerHeight] = useState(DEFAULT_H);
+  const [resizing, setResizing] = useState(false);
+  const startY = useRef(0);
+  const startH = useRef(0);
+
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    e.preventDefault();
+    setResizing(true);
+    startY.current = e.clientY;
+    startH.current = drawerHeight;
+
+    const onMove = (ev: PointerEvent) => {
+      const delta = startY.current - ev.clientY;
+      const next = Math.min(MAX_H, Math.max(MIN_H, startH.current + delta));
+      setDrawerHeight(next);
+      if (!resultsOpen) setResultsOpen(true);
+    };
+
+    const onUp = () => {
+      setResizing(false);
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+    };
+
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+  }, [drawerHeight, resultsOpen, setResultsOpen]);
 
   const handleExportCSV = useCallback(() => {
     if (!allMatched.length) return;
@@ -53,12 +86,25 @@ export function ResultsDrawer({
     URL.revokeObjectURL(url);
   }, [allMatched]);
 
+  const totalHeight = resultsOpen ? drawerHeight : HEADER_H;
+
   return (
     <motion.div
-      animate={{ height: resultsOpen ? "35vh" : "40px" }}
-      transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+      animate={{ height: totalHeight }}
+      transition={{ duration: resizing ? 0 : 0.3, ease: [0.4, 0, 0.2, 1] }}
       className="min-h-10 shrink-0 overflow-hidden border-t border-border-subtle bg-bg-surface"
     >
+      {/* Drag handle — only when open */}
+      {resultsOpen && (
+        <div
+          onPointerDown={handlePointerDown}
+          className="group flex h-1.5 w-full cursor-row-resize items-center justify-center bg-transparent hover:bg-accent/10"
+          aria-label="Resize results panel"
+        >
+          <div className="h-0.5 w-10 rounded-full bg-border-strong transition-colors group-hover:bg-accent" />
+        </div>
+      )}
+
       <ResultsHeader results={results} onExportCSV={handleExportCSV} />
 
       <AnimatePresence>
@@ -68,7 +114,8 @@ export function ResultsDrawer({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
-            className="flex h-[calc(35vh-40px)] flex-col"
+            style={{ height: drawerHeight - HEADER_H - 6 }}
+            className="flex flex-col"
           >
             {isRunning ? (
               <ResultsLoadingState />

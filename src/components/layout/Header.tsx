@@ -2,7 +2,12 @@
 
 import { useState } from "react";
 import dynamic from "next/dynamic";
-import { PlayCircle, HamburgerMenu, DocumentUpload, Trash } from "iconsax-reactjs";
+import {
+  PlayCircle,
+  HamburgerMenu,
+  DocumentUpload,
+  Trash,
+} from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 import { IconButton } from "../shared/IconButton";
 import { Kbd } from "../shared/Kbd";
@@ -50,14 +55,14 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
     <>
       <header
         role="banner"
-        className="grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b border-border-subtle bg-bg-surface px-4 md:px-5"
+        className="border-border-subtle bg-bg-surface grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b px-4 md:px-5"
       >
         {/* Left — hamburger on mobile, spacer on desktop */}
         <div className="flex items-center">
           <button
             onClick={toggleSidebar}
             aria-label="Toggle sidebar"
-            className="flex h-8 w-8 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary md:hidden"
+            className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary flex h-8 w-8 items-center justify-center rounded-md transition-colors md:hidden"
           >
             <HamburgerMenu size={18} />
           </button>
@@ -66,7 +71,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         {/* Schema selector pill — centered */}
         <nav
           aria-label="Dataset selector"
-          className="flex items-center gap-1 rounded-full border border-border-default bg-bg-surface px-1 py-1 max-sm:scale-90"
+          className="border-border-default bg-bg-surface flex items-center gap-1 rounded-full border px-1 py-1 max-sm:scale-90"
         >
           {allSchemas.map((schema) => {
             const isActive = schemaId === schema.id;
@@ -84,7 +89,9 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
                       : "text-text-muted hover:text-text-secondary",
                   )}
                 >
-                  {isActive && <span className="h-1.5 w-1.5 rounded-full bg-accent" />}
+                  {isActive && (
+                    <span className="bg-accent h-1.5 w-1.5 rounded-full" />
+                  )}
                   <span>{schema.label}</span>
                 </button>
                 {isCustom && (
@@ -94,7 +101,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
                       if (schemaId === schema.id) setSchema("agents");
                     }}
                     aria-label={`Remove ${schema.label}`}
-                    className="ml-0.5 rounded-full p-0.5 text-text-muted hover:text-destructive transition-colors"
+                    className="text-text-muted hover:text-destructive ml-0.5 rounded-full p-0.5 transition-colors"
                   >
                     <Trash size={10} />
                   </button>
@@ -107,7 +114,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
           <button
             onClick={() => setImportDataOpen(true)}
             aria-label="Import your data"
-            className="ml-1 flex items-center gap-1 rounded-full border border-dashed border-border-default px-2.5 py-1 text-xs text-text-muted transition-colors hover:border-accent hover:text-accent"
+            className="border-border-default text-text-muted hover:border-accent hover:text-accent ml-1 flex items-center gap-1 rounded-full border border-dashed px-2.5 py-1 text-xs transition-colors"
           >
             <DocumentUpload size={11} />
             <span className="hidden sm:inline">Import</span>
@@ -124,7 +131,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
               aria-label={isRunning ? "Query is running" : "Run query"}
               aria-busy={isRunning}
               className={cn(
-                "flex h-8 items-center gap-2 rounded-md bg-accent px-4 text-sm font-medium text-white transition-all",
+                "bg-accent flex h-7 items-center gap-2 rounded-b-md px-4 text-sm font-medium text-white transition-all",
                 "hover:bg-accent-hover active:scale-[0.97]",
                 "disabled:cursor-not-allowed disabled:opacity-50",
               )}
@@ -159,7 +166,10 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         </div>
       </header>
 
-      <ImportDataModal open={importDataOpen} onClose={() => setImportDataOpen(false)} />
+      <ImportDataModal
+        open={importDataOpen}
+        onClose={() => setImportDataOpen(false)}
+      />
     </>
   );
 }

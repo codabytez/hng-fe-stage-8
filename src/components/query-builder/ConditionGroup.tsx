@@ -114,7 +114,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
       animate={isRoot ? undefined : "visible"}
       exit={isRoot ? undefined : "exit"}
       layout
-      className={cn("rounded-md border border-l-[3px] p-3", "mb-2 last:mb-0")}
+      className={cn("rounded-md border p-3", "mb-2 last:mb-0")}
       style={containerStyle}
     >
       <GroupToolbar
@@ -171,7 +171,7 @@ export const ConditionGroup = React.memo(function ConditionGroup({
               {validation?.getError(group.id) && (
                 <p
                   role="alert"
-                  className="border-destructive bg-destructive-muted text-destructive rounded-sm border-l-2 px-3 py-1.5 text-xs font-medium"
+                  className="border-destructive bg-destructive-muted text-destructive rounded-sm px-3 py-1.5 text-xs font-medium"
                 >
                   {validation.getError(group.id)}
                 </p>
