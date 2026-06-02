@@ -1,7 +1,14 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "motion/react";
+import {
+  motion,
+  useInView,
+  useMotionValue,
+  useSpring,
+  useTransform,
+  useMotionTemplate,
+} from "motion/react";
 import { Hierarchy, ExportSquare, Data, Element4, Clock, ShieldTick, KeySquare } from "iconsax-reactjs";
 
 const FEATURES = [
@@ -56,6 +63,53 @@ const FEATURES = [
   },
 ] as const;
 
+function TiltCard({
+  children,
+  className,
+}: {
+  children: React.ReactNode;
+  className: string;
+}) {
+  const mouseX = useMotionValue(0.5);
+  const mouseY = useMotionValue(0.5);
+
+  const rawRotateX = useTransform(mouseY, [0, 1], [6, -6]);
+  const rawRotateY = useTransform(mouseX, [0, 1], [-6, 6]);
+  const rotateX = useSpring(rawRotateX, { stiffness: 300, damping: 30 });
+  const rotateY = useSpring(rawRotateY, { stiffness: 300, damping: 30 });
+
+  const glowX = useTransform(mouseX, [0, 1], [0, 100]);
+  const glowY = useTransform(mouseY, [0, 1], [0, 100]);
+  const glowBg = useMotionTemplate`radial-gradient(220px circle at ${glowX}% ${glowY}%, rgba(196,98,45,0.14), transparent 70%)`;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    mouseX.set((e.clientX - rect.left) / rect.width);
+    mouseY.set((e.clientY - rect.top) / rect.height);
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0.5);
+    mouseY.set(0.5);
+  };
+
+  return (
+    <motion.div
+      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={className}
+    >
+      {/* Cursor spotlight glow */}
+      <motion.div
+        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        style={{ background: glowBg }}
+      />
+      {children}
+    </motion.div>
+  );
+}
+
 export function LandingFeatures() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
@@ -79,36 +133,39 @@ export function LandingFeatures() {
         Everything you need to build complex queries without writing a single line of syntax.
       </motion.p>
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-6">
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-6" style={{ perspective: "1000px" }}>
         {FEATURES.map((feat, i) => {
           const Icon = feat.icon;
           return (
             <motion.div
               key={feat.title}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 28 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.45, delay: 0.1 + i * 0.06 }}
-              className={`group relative flex h-56 flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-all duration-300 hover:-translate-y-0.5 hover:border-accent/60 hover:shadow-[0_0_20px_rgba(110,86,207,0.12)] ${feat.span}`}
+              transition={{ duration: 0.45, delay: 0.1 + i * 0.07 }}
+              className={feat.span}
+              style={{ perspective: "800px" }}
             >
-              {feat.size === "large" && (
-                <div className="pointer-events-none absolute right-4 top-4 opacity-10 transition-opacity duration-300 group-hover:opacity-25">
-                  <Icon size={96} className="text-accent" />
-                </div>
-              )}
-              {feat.size === "small" ? (
-                <>
-                  <Icon size={32} className="mb-4 text-text-secondary" />
-                  <div className="mt-auto">
-                    <h3 className="mb-1 text-base font-semibold text-text-primary">{feat.title}</h3>
-                    <p className="text-xs text-text-muted">{feat.description}</p>
+              <TiltCard className="group relative flex h-56 w-full flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-colors duration-300 hover:border-accent/50">
+                {feat.size === "large" && (
+                  <div className="pointer-events-none absolute right-4 top-4 opacity-[0.07] transition-opacity duration-300 group-hover:opacity-20">
+                    <Icon size={96} className="text-accent" />
                   </div>
-                </>
-              ) : (
-                <div className="mt-auto">
-                  <h3 className="mb-1.5 text-base font-semibold text-accent">{feat.title}</h3>
-                  <p className="text-sm text-text-muted">{feat.description}</p>
-                </div>
-              )}
+                )}
+                {feat.size === "small" ? (
+                  <>
+                    <Icon size={32} className="mb-4 text-text-secondary transition-colors duration-300 group-hover:text-accent" />
+                    <div className="mt-auto">
+                      <h3 className="mb-1 text-base font-semibold text-text-primary">{feat.title}</h3>
+                      <p className="text-xs text-text-muted">{feat.description}</p>
+                    </div>
+                  </>
+                ) : (
+                  <div className="mt-auto">
+                    <h3 className="mb-1.5 text-base font-semibold text-accent">{feat.title}</h3>
+                    <p className="text-sm text-text-muted">{feat.description}</p>
+                  </div>
+                )}
+              </TiltCard>
             </motion.div>
           );
         })}
