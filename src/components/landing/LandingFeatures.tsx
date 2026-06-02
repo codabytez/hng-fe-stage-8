@@ -145,7 +145,7 @@ export function LandingFeatures() {
               className={feat.span}
               style={{ perspective: "800px" }}
             >
-              <TiltCard className="group relative flex h-56 w-full flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-colors duration-300 hover:border-accent/50">
+              <TiltCard className="group relative flex h-56 w-full flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-all duration-300 hover:border-accent/40 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
                 {feat.size === "large" && (
                   <div className="pointer-events-none absolute right-4 top-4 opacity-[0.07] transition-opacity duration-300 group-hover:opacity-20">
                     <Icon size={96} className="text-accent" />
