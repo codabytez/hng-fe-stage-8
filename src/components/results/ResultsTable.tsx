@@ -40,10 +40,10 @@ function formatCell(value: unknown): React.ReactNode {
     );
   }
   if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}/.test(value)) {
-    return <span className="font-mono text-xs">{formatDate(value)}</span>;
+    return <span className="text-xs">{formatDate(value)}</span>;
   }
   if (typeof value === "number") {
-    return <span className="font-mono text-sm">{value.toLocaleString()}</span>;
+    return <span className="text-sm">{value.toLocaleString()}</span>;
   }
   if (typeof value === "string" && value.length > 30) {
     return (
@@ -66,7 +66,7 @@ export const ResultsTable = React.memo(function ResultsTable({
 
   return (
     <div className="overflow-auto">
-      <table className="min-w-full w-max border-collapse text-sm">
+      <table className="w-max min-w-full border-collapse text-sm">
         <thead>
           <tr className="bg-bg-elevated">
             {columns.map((col) => (

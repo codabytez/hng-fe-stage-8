@@ -84,7 +84,11 @@ export function LandingSchemas() {
   };
 
   return (
-    <section id="schemas" className="mx-auto mb-32 max-w-7xl px-6 md:px-8" ref={ref}>
+    <section
+      id="schemas"
+      className="mx-auto mb-32 max-w-7xl px-6 md:px-8"
+      ref={ref}
+    >
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -92,16 +96,20 @@ export function LandingSchemas() {
         className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
       >
         <div>
-          <h2 className="mb-1 text-2xl font-semibold text-text-primary">Intelligent Schemas</h2>
-          <p className="text-sm text-text-muted">Explore how NexusDB handles different data models.</p>
+          <h2 className="text-text-primary mb-1 text-2xl font-semibold">
+            Intelligent Schemas
+          </h2>
+          <p className="text-text-muted text-sm">
+            Explore how NexusDB handles different data models.
+          </p>
         </div>
-        <div className="flex gap-1 rounded-lg border border-border-default bg-bg-elevated p-1">
+        <div className="border-border-default bg-bg-elevated flex gap-1 rounded-lg border p-1">
           {(Object.keys(SCHEMAS) as SchemaKey[]).map((key) => (
             <button
               key={key}
               onClick={() => setActive(key)}
               className={cn(
-                "rounded-md px-4 py-1.5 font-mono text-xs font-semibold tracking-widest transition-all",
+                "rounded-md px-4 py-1.5 text-xs font-semibold tracking-widest transition-all",
                 active === key
                   ? "bg-accent text-white"
                   : "text-text-muted hover:text-text-secondary",
@@ -120,13 +128,22 @@ export function LandingSchemas() {
         className="grid grid-cols-1 gap-4 lg:grid-cols-2"
       >
         {/* Field list */}
-        <div className="rounded-xl border border-border-default bg-bg-surface p-6">
-          <h4 className="mb-4 font-mono text-xs font-semibold tracking-widest text-text-muted">FIELD MANIFEST</h4>
+        <div className="border-border-default bg-bg-surface rounded-xl border p-6">
+          <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
+            FIELD MANIFEST
+          </h4>
           <ul className="space-y-3">
             {schema.fields.map((f) => (
-              <li key={f.name} className="flex items-center justify-between border-b border-border-subtle pb-3 last:border-0 last:pb-0">
-                <code className={`font-mono text-sm ${TYPE_COLORS[f.type] ?? "text-text-primary"}`}>{f.name}</code>
-                <span className="rounded border border-border-default bg-bg-elevated px-2 py-0.5 font-mono text-xs text-text-muted">
+              <li
+                key={f.name}
+                className="border-border-subtle flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
+              >
+                <code
+                  className={`text-sm ${TYPE_COLORS[f.type] ?? "text-text-primary"}`}
+                >
+                  {f.name}
+                </code>
+                <span className="border-border-default bg-bg-elevated text-text-muted rounded border px-2 py-0.5 text-xs">
                   {f.type}
                 </span>
               </li>
@@ -135,31 +152,63 @@ export function LandingSchemas() {
         </div>
 
         {/* SQL output */}
-        <div className="relative rounded-xl border border-border-default bg-bg-base p-6">
+        <div className="border-border-default bg-bg-base relative rounded-xl border p-6">
           <button
             onClick={handleCopy}
-            className="absolute right-4 top-4 flex items-center gap-1 rounded-md px-2 py-1 text-xs text-text-muted transition-colors hover:text-text-primary"
+            className="text-text-muted hover:text-text-primary absolute top-4 right-4 flex items-center gap-1 rounded-md px-2 py-1 text-xs transition-colors"
           >
-            {copied ? <TickCircle size={14} className="text-success" /> : <Copy size={14} />}
+            {copied ? (
+              <TickCircle size={14} className="text-success" />
+            ) : (
+              <Copy size={14} />
+            )}
             {copied ? "Copied" : "Copy"}
           </button>
-          <h4 className="mb-4 font-mono text-xs font-semibold tracking-widest text-text-muted">GENERATED SQL</h4>
-          <pre className="font-mono text-sm leading-relaxed whitespace-pre-wrap">
+          <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
+            GENERATED SQL
+          </h4>
+          <pre className="text-sm leading-relaxed whitespace-pre-wrap">
             {schema.sql.split("\n").map((line, i) => (
               <span key={i} className="block">
-                {line
-                  .split(/\b/)
-                  .map((token, j) => {
-                    if (/^(SELECT|FROM|WHERE|AND|OR|IN|LIKE|ORDER BY|DESC|true|false)$/.test(token))
-                      return <span key={j} className="text-code-keyword">{token}</span>;
-                    if (/^'.*'$/.test(token))
-                      return <span key={j} className="text-code-string">{token}</span>;
-                    if (/^\d+$/.test(token))
-                      return <span key={j} className="text-code-number">{token}</span>;
-                    if (/^(agents|cities|incidents|clearanceLevel|codename|activeStatus|lastSeen|population|crimeIndex|isCapital|severity|isEscalated|responseTime|reportedAt|name|country|founded|title|status|region|missionsCompleted|languages|affectedSystems|governmentType)$/.test(token))
-                      return <span key={j} className="text-code-field">{token}</span>;
-                    return <span key={j} className="text-code-text">{token}</span>;
-                  })}
+                {line.split(/\b/).map((token, j) => {
+                  if (
+                    /^(SELECT|FROM|WHERE|AND|OR|IN|LIKE|ORDER BY|DESC|true|false)$/.test(
+                      token,
+                    )
+                  )
+                    return (
+                      <span key={j} className="text-code-keyword">
+                        {token}
+                      </span>
+                    );
+                  if (/^'.*'$/.test(token))
+                    return (
+                      <span key={j} className="text-code-string">
+                        {token}
+                      </span>
+                    );
+                  if (/^\d+$/.test(token))
+                    return (
+                      <span key={j} className="text-code-number">
+                        {token}
+                      </span>
+                    );
+                  if (
+                    /^(agents|cities|incidents|clearanceLevel|codename|activeStatus|lastSeen|population|crimeIndex|isCapital|severity|isEscalated|responseTime|reportedAt|name|country|founded|title|status|region|missionsCompleted|languages|affectedSystems|governmentType)$/.test(
+                      token,
+                    )
+                  )
+                    return (
+                      <span key={j} className="text-code-field">
+                        {token}
+                      </span>
+                    );
+                  return (
+                    <span key={j} className="text-code-text">
+                      {token}
+                    </span>
+                  );
+                })}
               </span>
             ))}
           </pre>

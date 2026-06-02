@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { useCustomDataStore } from "@/store/custom-data-store";
 import { useQueryActions } from "@/store/query-store";
 import { useToast } from "@/components/shared/ToastContainer";
-import { inferSchema, parseImportedData } from "@/lib/query-engine/schema-inferrer";
+import {
+  inferSchema,
+  parseImportedData,
+} from "@/lib/query-engine/schema-inferrer";
 
 interface ImportDataModalProps {
   open: boolean;
@@ -20,7 +28,9 @@ export function ImportDataModal({ open, onClose }: ImportDataModalProps) {
   const [raw, setRaw] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
-  const [preview, setPreview] = useState<Record<string, unknown>[] | null>(null);
+  const [preview, setPreview] = useState<Record<string, unknown>[] | null>(
+    null,
+  );
 
   const handleParse = useCallback(() => {
     setError("");
@@ -33,32 +43,38 @@ export function ImportDataModal({ open, onClose }: ImportDataModalProps) {
     }
   }, [raw]);
 
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    const datasetName = file.name.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      try {
-        const data = parseImportedData(String(ev.target?.result ?? ""));
-        const schema = inferSchema(datasetName, data);
-        addDataset({ schema, data });
-        setSchema(schema.id);
-        toast({
-          message: `"${datasetName}" imported`,
-          description: `${data.length} records · ${schema.fields.length} fields detected`,
-        });
-        setRaw("");
-        setName("");
-        setPreview(null);
-        setError("");
-        onClose();
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to read file");
-      }
-    };
-    reader.readAsText(file);
-  }, [addDataset, setSchema, toast, onClose]);
+  const handleFileUpload = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const datasetName = file.name
+        .replace(/\.[^.]+$/, "")
+        .replace(/[-_]/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        try {
+          const data = parseImportedData(String(ev.target?.result ?? ""));
+          const schema = inferSchema(datasetName, data);
+          addDataset({ schema, data });
+          setSchema(schema.id);
+          toast({
+            message: `"${datasetName}" imported`,
+            description: `${data.length} records · ${schema.fields.length} fields detected`,
+          });
+          setRaw("");
+          setName("");
+          setPreview(null);
+          setError("");
+          onClose();
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "Failed to read file");
+        }
+      };
+      reader.readAsText(file);
+    },
+    [addDataset, setSchema, toast, onClose],
+  );
 
   const handleImport = useCallback(() => {
     setError("");
@@ -84,14 +100,22 @@ export function ImportDataModal({ open, onClose }: ImportDataModalProps) {
   const previewCols = preview ? Object.keys(preview[0] ?? {}).slice(0, 5) : [];
 
   return (
-    <Dialog open={open} onOpenChange={(o) => { if (!o) onClose(); }}>
-      <DialogContent className="max-w-xl border-border-default bg-bg-elevated">
+    <Dialog
+      open={open}
+      onOpenChange={(o) => {
+        if (!o) onClose();
+      }}
+    >
+      <DialogContent className="border-border-default bg-bg-elevated max-w-xl">
         <DialogHeader>
-          <DialogTitle className="text-text-primary">Import Your Data</DialogTitle>
+          <DialogTitle className="text-text-primary">
+            Import Your Data
+          </DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-text-muted -mt-1">
-          Paste a JSON array or upload a <code className="text-text-secondary">.json</code> file.
-          Field types are inferred automatically.
+        <p className="text-text-muted -mt-1 text-sm">
+          Paste a JSON array or upload a{" "}
+          <code className="text-text-secondary">.json</code> file. Field types
+          are inferred automatically.
         </p>
 
         {/* Name */}
@@ -99,41 +123,50 @@ export function ImportDataModal({ open, onClose }: ImportDataModalProps) {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Dataset name (e.g. Users, Orders)"
-          className="w-full rounded-md border border-border-default bg-bg-surface px-3 py-2 text-sm text-text-primary placeholder:text-text-muted focus:border-border-focus focus:outline-none"
+          className="border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted focus:border-border-focus w-full rounded-md border px-3 py-2 text-sm focus:outline-none"
         />
 
         {/* Paste area */}
         <textarea
           value={raw}
-          onChange={(e) => { setRaw(e.target.value); setError(""); setPreview(null); }}
+          onChange={(e) => {
+            setRaw(e.target.value);
+            setError("");
+            setPreview(null);
+          }}
           placeholder={`[\n  { "id": 1, "name": "Alice", "age": 30 },\n  { "id": 2, "name": "Bob",   "age": 25 }\n]`}
           rows={7}
-          className="w-full resize-none rounded-md border border-border-default bg-bg-surface px-3 py-2 font-mono text-xs text-text-primary placeholder:text-text-muted focus:border-border-focus focus:outline-none"
+          className="border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted focus:border-border-focus w-full resize-none rounded-md border px-3 py-2 text-xs focus:outline-none"
         />
 
-        {error && <p className="text-xs text-destructive -mt-1">{error}</p>}
+        {error && <p className="text-destructive -mt-1 text-xs">{error}</p>}
 
         {/* Preview table */}
         {preview && preview.length > 0 && (
-          <div className="overflow-x-auto rounded-md border border-border-default">
+          <div className="border-border-default overflow-x-auto rounded-md border">
             <table className="w-full text-xs">
               <thead className="bg-bg-surface">
                 <tr>
                   {previewCols.map((col) => (
-                    <th key={col} className="px-3 py-1.5 text-left font-medium text-text-secondary">
+                    <th
+                      key={col}
+                      className="text-text-secondary px-3 py-1.5 text-left font-medium"
+                    >
                       {col}
                     </th>
                   ))}
                   {Object.keys(preview[0]).length > 5 && (
-                    <th className="px-3 py-1.5 text-left text-text-muted">+{Object.keys(preview[0]).length - 5} more</th>
+                    <th className="text-text-muted px-3 py-1.5 text-left">
+                      +{Object.keys(preview[0]).length - 5} more
+                    </th>
                   )}
                 </tr>
               </thead>
               <tbody>
                 {preview.map((row, i) => (
-                  <tr key={i} className="border-t border-border-subtle">
+                  <tr key={i} className="border-border-subtle border-t">
                     {previewCols.map((col) => (
-                      <td key={col} className="px-3 py-1.5 text-text-muted">
+                      <td key={col} className="text-text-muted px-3 py-1.5">
                         {String(row[col] ?? "—").slice(0, 24)}
                       </td>
                     ))}
@@ -145,21 +178,26 @@ export function ImportDataModal({ open, onClose }: ImportDataModalProps) {
         )}
 
         <div className="flex gap-2 pt-1">
-          <label className="flex flex-1 cursor-pointer items-center justify-center rounded-md border border-border-default bg-bg-surface py-2 text-sm text-text-secondary hover:text-text-primary transition-colors">
+          <label className="border-border-default bg-bg-surface text-text-secondary hover:text-text-primary flex flex-1 cursor-pointer items-center justify-center rounded-md border py-2 text-sm transition-colors">
             Upload .json
-            <input type="file" accept=".json" onChange={handleFileUpload} className="sr-only" />
+            <input
+              type="file"
+              accept=".json"
+              onChange={handleFileUpload}
+              className="sr-only"
+            />
           </label>
           <button
             onClick={handleParse}
             disabled={!raw.trim()}
-            className="flex flex-1 items-center justify-center rounded-md border border-border-default bg-bg-surface py-2 text-sm text-text-secondary hover:text-text-primary transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="border-border-default bg-bg-surface text-text-secondary hover:text-text-primary flex flex-1 items-center justify-center rounded-md border py-2 text-sm transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           >
             Preview
           </button>
           <button
             onClick={handleImport}
             disabled={!raw.trim()}
-            className="flex flex-1 items-center justify-center rounded-md bg-accent py-2 text-sm font-medium text-white hover:bg-accent-hover transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            className="bg-accent hover:bg-accent-hover flex flex-1 items-center justify-center rounded-md py-2 text-sm font-medium text-white transition-colors disabled:cursor-not-allowed disabled:opacity-40"
           >
             Import & Query
           </button>

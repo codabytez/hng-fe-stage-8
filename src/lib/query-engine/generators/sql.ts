@@ -45,10 +45,12 @@ function generateRuleSQL(rule: Rule): string {
     case "lt": return `${field} < ${sqlVal(value)}`;
     case "lte": return `${field} <= ${sqlVal(value)}`;
     case "between": {
+      if (!Array.isArray(value)) return `/* incomplete rule */`;
       const [a, b] = value as [unknown, unknown];
       return `${field} BETWEEN ${sqlVal(a)} AND ${sqlVal(b)}`;
     }
     case "not_between": {
+      if (!Array.isArray(value)) return `/* incomplete rule */`;
       const [a, b] = value as [unknown, unknown];
       return `${field} NOT BETWEEN ${sqlVal(a)} AND ${sqlVal(b)}`;
     }

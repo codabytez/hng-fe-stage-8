@@ -1,8 +1,13 @@
 "use client";
 
+import Link from "next/link";
 import {
-  Data, Clock, ArchiveBook,
-  UserTag, Buildings, Flash,
+  Data,
+  Clock,
+  ArchiveBook,
+  UserTag,
+  Buildings,
+  Flash,
   ArrowLeft2,
 } from "iconsax-reactjs";
 import { AnimatePresence, motion } from "motion/react";
@@ -12,7 +17,11 @@ import { SidebarSection } from "./SidebarSection";
 import { SchemaCard } from "./SchemaCard";
 import { HistorySection } from "./HistoryItem";
 import { PresetsSection } from "./PresetItem";
-import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import { useUIStore } from "@/store/ui-store";
 import { useQueryStore, useQueryActions } from "@/store/query-store";
 
@@ -35,7 +44,7 @@ export function Sidebar() {
     <aside
       id="app-sidebar"
       aria-label="Sidebar navigation"
-      className="flex h-full flex-col overflow-hidden border-r border-border-subtle bg-bg-surface"
+      className="border-border-subtle bg-bg-surface flex h-full flex-col overflow-hidden border-r"
     >
       <AnimatePresence initial={false} mode="wait">
         {sidebarOpen ? (
@@ -48,20 +57,22 @@ export function Sidebar() {
             className="flex flex-1 flex-col overflow-hidden"
           >
             {/* Logo row — h-14 aligns with the Header on the right */}
-            <div className="flex h-14 shrink-0 items-center justify-between border-b border-border-subtle px-4">
+            <div className="border-border-subtle flex h-14 shrink-0 items-center justify-between border-b px-4">
               <div className="flex items-center gap-2.5">
                 <HexLogo />
-                <div className="flex flex-col leading-none">
-                  <span className="font-mono text-base font-bold text-text-primary">NexusDB</span>
-                  <span className="text-xs text-text-muted">Explorer</span>
-                </div>
+                <Link href="/" className="group flex flex-col leading-none">
+                  <span className="text-text-primary group-hover:text-accent text-base font-bold transition-colors">
+                    NexusDB
+                  </span>
+                  <span className="text-text-muted text-xs">Explorer</span>
+                </Link>
               </div>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <button
                     onClick={toggleSidebar}
                     aria-label="Collapse sidebar"
-                    className="rounded-md p-1 text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary"
+                    className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary rounded-md p-1 transition-colors"
                   >
                     <ArrowLeft2 size={14} />
                   </button>
@@ -71,8 +82,8 @@ export function Sidebar() {
             </div>
 
             {/* Theme toggle — mobile only, lives here since header hides it */}
-            <div className="flex items-center justify-between border-b border-border-subtle px-4 py-2 lg:hidden">
-              <span className="text-xs text-text-muted">Theme</span>
+            <div className="border-border-subtle flex items-center justify-between border-b px-4 py-2 lg:hidden">
+              <span className="text-text-muted text-xs">Theme</span>
               <ThemeToggle />
             </div>
 
@@ -125,13 +136,13 @@ function CollapsedRail({ onExpand }: { onExpand: () => void }) {
       className="flex flex-1 flex-col items-center"
     >
       {/* Logo icon — h-14 aligns with the Header on the right, click to expand */}
-      <div className="flex h-14 w-full shrink-0 items-center justify-center border-b border-border-subtle">
+      <div className="border-border-subtle flex h-14 w-full shrink-0 items-center justify-center border-b">
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               onClick={onExpand}
               aria-label="Expand sidebar"
-              className="flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-bg-elevated"
+              className="hover:bg-bg-elevated flex h-9 w-9 items-center justify-center rounded-md transition-colors"
             >
               <HexLogo />
             </button>
@@ -141,7 +152,7 @@ function CollapsedRail({ onExpand }: { onExpand: () => void }) {
       </div>
 
       <div className="flex flex-col items-center gap-1 py-3">
-        <div className="my-1 w-6 border-t border-border-subtle" />
+        <div className="border-border-subtle my-1 w-6 border-t" />
 
         {/* Schema icons */}
         {SCHEMAS.map(({ id, label, Icon }) => {
@@ -168,13 +179,13 @@ function CollapsedRail({ onExpand }: { onExpand: () => void }) {
           );
         })}
 
-        <div className="my-1 w-6 border-t border-border-subtle" />
+        <div className="border-border-subtle my-1 w-6 border-t" />
 
         <Tooltip>
           <TooltipTrigger asChild>
             <button
               aria-label="History"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary"
+              className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary flex h-9 w-9 items-center justify-center rounded-md transition-colors"
             >
               <Clock size={18} />
             </button>
@@ -186,7 +197,7 @@ function CollapsedRail({ onExpand }: { onExpand: () => void }) {
           <TooltipTrigger asChild>
             <button
               aria-label="Presets"
-              className="flex h-9 w-9 items-center justify-center rounded-md text-text-muted transition-colors hover:bg-bg-elevated hover:text-text-secondary"
+              className="text-text-muted hover:bg-bg-elevated hover:text-text-secondary flex h-9 w-9 items-center justify-center rounded-md transition-colors"
             >
               <ArchiveBook size={18} />
             </button>

@@ -36,10 +36,12 @@ function generateRuleMongo(rule: Rule): object {
     case "lt": return { [field]: { $lt: value } };
     case "lte": return { [field]: { $lte: value } };
     case "between": {
+      if (!Array.isArray(value)) return {};
       const [a, b] = value as [unknown, unknown];
       return { [field]: { $gte: a, $lte: b } };
     }
     case "not_between": {
+      if (!Array.isArray(value)) return {};
       const [a, b] = value as [unknown, unknown];
       return { [field]: { $not: { $gte: a, $lte: b } } };
     }

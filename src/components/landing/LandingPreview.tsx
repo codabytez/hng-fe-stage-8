@@ -19,7 +19,7 @@ export function LandingPreview() {
             <span className="bg-warning/70 h-3 w-3 rounded-full" />
             <span className="bg-accent/70 h-3 w-3 rounded-full" />
           </div>
-          <div className="bg-bg-surface text-text-muted flex-1 rounded-md px-4 py-1 text-center font-mono text-xs">
+          <div className="bg-bg-surface text-text-muted flex-1 rounded-md px-4 py-1 text-center text-xs">
             nexusdbx.vercel.app/app
           </div>
         </div>
@@ -54,7 +54,7 @@ export function LandingPreview() {
             <div className="absolute inset-0 bg-[radial-gradient(var(--accent)_1px,transparent_1px)] bg-size-[20px_20px] opacity-[0.04]" />
             <div className="relative z-10 mx-auto max-w-md">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-text-muted font-mono text-xs font-semibold tracking-widest">
+                <span className="text-text-muted text-xs font-semibold tracking-widest">
                   QUERY BUILDER
                 </span>
                 <div className="flex gap-1">
@@ -83,13 +83,9 @@ export function LandingPreview() {
                   className={`bg-bg-surface mb-2 flex items-center gap-2 rounded-md border px-3 py-2 ${i === 0 ? "border-accent/40" : "border-border-default"} ${i > 0 ? "ml-6" : ""}`}
                 >
                   <Element4 size={12} className="text-text-muted shrink-0" />
-                  <span className="text-text-accent font-mono text-xs">
-                    {rule.field}
-                  </span>
+                  <span className="text-text-accent text-xs">{rule.field}</span>
                   <span className="text-text-muted text-xs">{rule.op}</span>
-                  <span className="text-warning font-mono text-xs">
-                    {rule.val}
-                  </span>
+                  <span className="text-warning text-xs">{rule.val}</span>
                 </motion.div>
               ))}
 
@@ -116,7 +112,7 @@ export function LandingPreview() {
                 </span>
               ))}
             </div>
-            <div className="bg-bg-base rounded-md p-3 font-mono text-xs leading-relaxed">
+            <div className="bg-bg-base rounded-md p-3 text-xs leading-relaxed">
               <span className="text-code-keyword">SELECT</span>
               <span className="text-code-text"> * </span>
               <span className="text-code-keyword">FROM</span>

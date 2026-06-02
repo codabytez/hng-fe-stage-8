@@ -28,7 +28,7 @@ export function NumberInput({
       max={max}
       placeholder={placeholder}
       className={cn(
-        "border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted h-7.5 w-full rounded-md border px-2 font-mono text-sm",
+        "border-border-default bg-bg-surface text-text-primary placeholder:text-text-muted h-7.5 w-full rounded-md border px-2 text-sm",
         "focus:border-border-focus focus:ring-accent-muted focus:ring-2 focus:outline-none",
         className,
       )}

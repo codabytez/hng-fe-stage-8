@@ -48,6 +48,7 @@ function generateRuleGQL(rule: Rule): string {
     case "lt": return `${field}: { _lt: ${gqlVal(value)} }`;
     case "lte": return `${field}: { _lte: ${gqlVal(value)} }`;
     case "between": {
+      if (!Array.isArray(value)) return `# incomplete rule`;
       const [a, b] = value as [unknown, unknown];
       return `${field}: { _gte: ${gqlVal(a)}, _lte: ${gqlVal(b)} }`;
     }

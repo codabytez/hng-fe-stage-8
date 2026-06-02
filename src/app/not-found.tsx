@@ -39,13 +39,13 @@ export default function NotFound() {
             <span className="bg-warning/60 h-3 w-3 rounded-full" />
             <span className="bg-accent/60 h-3 w-3 rounded-full" />
           </div>
-          <span className="text-text-muted flex-1 text-center font-mono text-xs">
+          <span className="text-text-muted flex-1 text-center text-xs">
             nexusdb — query_executor.sql
           </span>
         </div>
 
         {/* Code panel */}
-        <div className="bg-bg-base p-6 font-mono text-sm leading-7">
+        <div className="bg-bg-base p-6 text-sm leading-7">
           <SqlLine delay={0.1}>
             <span className="text-code-keyword">SELECT</span>
             <span className="text-code-text"> * </span>
@@ -84,9 +84,7 @@ export default function NotFound() {
               No page matched the condition
             </span>
           </div>
-          <span className="text-destructive font-mono text-xs font-bold">
-            404
-          </span>
+          <span className="text-destructive text-xs font-bold">404</span>
         </div>
       </motion.div>
 
