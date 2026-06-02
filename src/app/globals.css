@@ -229,13 +229,24 @@
   --border-subtle: #ebebf0;
   --border-default: #e4e4ec;
   --border-strong: #d0d0dc;
-  --border-focus: #c4622d;
+  --border-focus: #9e5525;
 
   --text-primary: #09090b;
   --text-secondary: #52525b;
   --text-muted: #a1a1aa;
   --text-disabled: #d4d4d8;
   --text-inverse: #ededef;
+  --text-accent: #7a3210;
+
+  /* Accent — muted copper for light mode, less punchy */
+  --accent: #9e5525;
+  --accent-hover: #ad6030;
+  --accent-muted: #9e55250f;
+  --accent-subtle: #9e552508;
+
+  --drag-handle-hover: #9e5525;
+  --drop-indicator: #9e5525;
+  --depth-0: #9e5525;
 
   /* Code stays dark in light mode */
   --code-bg: #1a1a24;

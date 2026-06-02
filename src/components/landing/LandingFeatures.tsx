@@ -7,7 +7,6 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
-  useMotionTemplate,
 } from "motion/react";
 import { Hierarchy, ExportSquare, Data, Element4, Clock, ShieldTick, KeySquare } from "iconsax-reactjs";
 
@@ -78,10 +77,6 @@ function TiltCard({
   const rotateX = useSpring(rawRotateX, { stiffness: 300, damping: 30 });
   const rotateY = useSpring(rawRotateY, { stiffness: 300, damping: 30 });
 
-  const glowX = useTransform(mouseX, [0, 1], [0, 100]);
-  const glowY = useTransform(mouseY, [0, 1], [0, 100]);
-  const glowBg = useMotionTemplate`radial-gradient(220px circle at ${glowX}% ${glowY}%, rgba(196,98,45,0.14), transparent 70%)`;
-
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     mouseX.set((e.clientX - rect.left) / rect.width);
@@ -100,11 +95,6 @@ function TiltCard({
       onMouseLeave={handleMouseLeave}
       className={className}
     >
-      {/* Cursor spotlight glow */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{ background: glowBg }}
-      />
       {children}
     </motion.div>
   );
@@ -145,7 +135,7 @@ export function LandingFeatures() {
               className={feat.span}
               style={{ perspective: "800px" }}
             >
-              <TiltCard className="group relative flex h-56 w-full flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-colors duration-300 hover:border-accent/50">
+              <TiltCard className="group relative flex h-56 w-full flex-col overflow-hidden rounded-xl border border-border-default bg-bg-surface p-6 transition-colors duration-300 hover:border-accent/40">
                 {feat.size === "large" && (
                   <div className="pointer-events-none absolute right-4 top-4 opacity-[0.07] transition-opacity duration-300 group-hover:opacity-20">
                     <Icon size={96} className="text-accent" />

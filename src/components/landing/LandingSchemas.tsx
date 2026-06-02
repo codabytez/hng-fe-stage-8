@@ -162,9 +162,17 @@ export function LandingSchemas() {
             {/* Scanning line */}
             <motion.div
               className="pointer-events-none absolute inset-x-0 h-10"
-              style={{ background: "linear-gradient(to bottom, transparent, rgba(196,98,45,0.1), transparent)" }}
+              style={{
+                background:
+                  "linear-gradient(to bottom, transparent, rgba(196,98,45,0.1), transparent)",
+              }}
               animate={{ top: ["8%", "88%"] }}
-              transition={{ duration: 2.8, repeat: Infinity, ease: "linear", repeatDelay: 0.6 }}
+              transition={{
+                duration: 2.8,
+                repeat: Infinity,
+                ease: "linear",
+                repeatDelay: 0.6,
+              }}
             />
             <button
               onClick={handleCopy}

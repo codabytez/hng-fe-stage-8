@@ -28,10 +28,8 @@ export function LandingCTA() {
         initial={{ opacity: 0, y: 32 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
-        className="relative overflow-hidden rounded-3xl border border-accent/20 bg-linear-to-br from-accent/10 via-bg-surface to-bg-base p-12 text-center md:p-20"
+        className="relative overflow-hidden rounded-3xl border border-accent/20 bg-bg-surface p-12 text-center md:p-20"
       >
-        {/* Dot grid */}
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(var(--accent)_1px,transparent_1px)] bg-size-[24px_24px] opacity-[0.05]" />
 
         {/* Floating particles */}
         {PARTICLES.map((p, i) => (
