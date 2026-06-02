@@ -60,12 +60,12 @@ function Calendar({
         ),
         button_previous: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
+          "size-(--cell-size) p-0 select-none text-text-muted hover:bg-bg-hover hover:text-text-primary aria-disabled:opacity-50",
           defaultClassNames.button_previous,
         ),
         button_next: cn(
           buttonVariants({ variant: buttonVariant }),
-          "size-(--cell-size) p-0 select-none aria-disabled:opacity-50",
+          "size-(--cell-size) p-0 select-none text-text-muted hover:bg-bg-hover hover:text-text-primary aria-disabled:opacity-50",
           defaultClassNames.button_next,
         ),
         month_caption: cn(
@@ -85,7 +85,7 @@ function Calendar({
           defaultClassNames.dropdown,
         ),
         caption_label: cn(
-          "font-medium select-none",
+          "font-medium select-none text-text-primary",
           captionLayout === "label"
             ? "text-sm"
             : "flex items-center gap-1 rounded-(--cell-radius) text-sm",
@@ -237,7 +237,7 @@ function CalendarDayButton({
       data-range-end={modifiers.range_end}
       data-range-middle={modifiers.range_middle}
       className={cn(
-        "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 font-normal leading-none",
+        "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 font-normal leading-none text-text-primary",
         "data-[selected-single=true]:bg-accent data-[selected-single=true]:text-white",
         "data-[range-start=true]:rounded-l-(--cell-radius) data-[range-start=true]:bg-accent data-[range-start=true]:text-white",
         "data-[range-end=true]:rounded-r-(--cell-radius) data-[range-end=true]:bg-accent data-[range-end=true]:text-white",

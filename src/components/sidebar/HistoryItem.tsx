@@ -20,13 +20,17 @@ export function HistoryItem({ entry }: HistoryItemProps) {
   return (
     <button
       onClick={handleRestore}
-      className="w-full rounded-md px-2 py-1.5 text-left hover:bg-bg-hover"
+      className="hover:bg-bg-hover w-full rounded-md px-2 py-1.5 text-left"
     >
       <div className="flex items-center justify-between">
-        <span className="text-xs text-text-accent">{entry.conditionCount} conditions</span>
-        <span className="text-xs text-text-muted">{formatDate(new Date(entry.timestamp))}</span>
+        <span className="text-text-accent text-xs">
+          {entry.conditionCount} conditions
+        </span>
+        <span className="text-text-muted text-xs">
+          {formatDate(new Date(entry.timestamp))}
+        </span>
       </div>
-      <p className="truncate font-mono text-xs text-text-secondary">
+      <p className="text-text-secondary truncate text-xs">
         {entry.schemaId} · {entry.resultCount} results
       </p>
     </button>
@@ -39,7 +43,9 @@ export function HistorySection() {
 
   if (history.length === 0) {
     return (
-      <p className="py-2 text-center text-xs text-text-muted">No queries run yet</p>
+      <p className="text-text-muted py-2 text-center text-xs">
+        No queries run yet
+      </p>
     );
   }
 
@@ -52,7 +58,9 @@ export function HistorySection() {
       </div>
       <button
         onClick={clearHistory}
-        className={cn("mt-1 text-left text-xs text-destructive hover:underline")}
+        className={cn(
+          "text-destructive mt-1 text-left text-xs hover:underline",
+        )}
       >
         Clear history
       </button>

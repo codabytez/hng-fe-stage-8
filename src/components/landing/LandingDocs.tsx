@@ -16,7 +16,7 @@ type SectionId = (typeof SECTIONS)[number]["id"];
 
 function Kbd({ children }: { children: string }) {
   return (
-    <kbd className="inline-flex items-center rounded border border-border-default bg-bg-elevated px-2 py-0.5 font-mono text-xs text-text-secondary">
+    <kbd className="border-border-default bg-bg-elevated text-text-secondary inline-flex items-center rounded border px-2 py-0.5 text-xs">
       {children}
     </kbd>
   );
@@ -24,7 +24,7 @@ function Kbd({ children }: { children: string }) {
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h3 className="mb-4 text-lg font-semibold text-text-primary">{children}</h3>
+    <h3 className="text-text-primary mb-4 text-lg font-semibold">{children}</h3>
   );
 }
 
@@ -62,11 +62,18 @@ function GettingStarted() {
       <SectionTitle>Getting Started</SectionTitle>
       <div className="space-y-3">
         {steps.map((s) => (
-          <div key={s.n} className="flex gap-4 rounded-lg border border-border-default bg-bg-surface p-4">
-            <span className="font-mono text-2xl font-bold text-accent/30 leading-none">{s.n}</span>
+          <div
+            key={s.n}
+            className="border-border-default bg-bg-surface flex gap-4 rounded-lg border p-4"
+          >
+            <span className="text-accent/30 text-2xl leading-none font-bold">
+              {s.n}
+            </span>
             <div>
-              <p className="mb-0.5 font-semibold text-text-primary">{s.title}</p>
-              <p className="text-sm text-text-muted">{s.body}</p>
+              <p className="text-text-primary mb-0.5 font-semibold">
+                {s.title}
+              </p>
+              <p className="text-text-muted text-sm">{s.body}</p>
             </div>
           </div>
         ))}
@@ -80,12 +87,31 @@ function FieldTypes() {
     {
       type: "String",
       color: "text-code-string",
-      ops: ["Equals", "Not Equals", "Contains", "Does Not Contain", "Starts With", "Ends With", "Matches Regex", "Is Empty / Not Empty", "Is Null / Not Null"],
+      ops: [
+        "Equals",
+        "Not Equals",
+        "Contains",
+        "Does Not Contain",
+        "Starts With",
+        "Ends With",
+        "Matches Regex",
+        "Is Empty / Not Empty",
+        "Is Null / Not Null",
+      ],
     },
     {
       type: "Number",
       color: "text-code-number",
-      ops: ["Equals", "Not Equals", "Greater Than", "Less Than", "Greater / Less Than or Equal", "Between", "Not Between", "Is Null / Not Null"],
+      ops: [
+        "Equals",
+        "Not Equals",
+        "Greater Than",
+        "Less Than",
+        "Greater / Less Than or Equal",
+        "Between",
+        "Not Between",
+        "Is Null / Not Null",
+      ],
     },
     {
       type: "Boolean",
@@ -95,7 +121,17 @@ function FieldTypes() {
     {
       type: "Date",
       color: "text-warning",
-      ops: ["Equals", "Not Equals", "Before", "After", "Between", "Is Today", "Is This Week", "Is This Month", "Is Null / Not Null"],
+      ops: [
+        "Equals",
+        "Not Equals",
+        "Before",
+        "After",
+        "Between",
+        "Is Today",
+        "Is This Week",
+        "Is This Month",
+        "Is Null / Not Null",
+      ],
     },
     {
       type: "Enum",
@@ -105,7 +141,12 @@ function FieldTypes() {
     {
       type: "Array",
       color: "text-code-field",
-      ops: ["Contains", "Does Not Contain", "Is Empty / Not Empty", "Is Null / Not Null"],
+      ops: [
+        "Contains",
+        "Does Not Contain",
+        "Is Empty / Not Empty",
+        "Is Null / Not Null",
+      ],
     },
   ];
 
@@ -114,11 +155,19 @@ function FieldTypes() {
       <SectionTitle>Field Types & Operators</SectionTitle>
       <div className="space-y-3">
         {rows.map((r) => (
-          <div key={r.type} className="rounded-lg border border-border-default bg-bg-surface p-4">
-            <span className={cn("mb-2 block font-mono text-sm font-semibold", r.color)}>{r.type}</span>
+          <div
+            key={r.type}
+            className="border-border-default bg-bg-surface rounded-lg border p-4"
+          >
+            <span className={cn("mb-2 block text-sm font-semibold", r.color)}>
+              {r.type}
+            </span>
             <div className="flex flex-wrap gap-1.5">
               {r.ops.map((op) => (
-                <span key={op} className="rounded-full border border-border-subtle bg-bg-elevated px-2.5 py-0.5 text-xs text-text-muted">
+                <span
+                  key={op}
+                  className="border-border-subtle bg-bg-elevated text-text-muted rounded-full border px-2.5 py-0.5 text-xs"
+                >
                   {op}
                 </span>
               ))}
@@ -144,15 +193,20 @@ function Shortcuts() {
   return (
     <div id="shortcuts" className="scroll-mt-24">
       <SectionTitle>Keyboard Shortcuts</SectionTitle>
-      <div className="divide-y divide-border-subtle rounded-lg border border-border-default bg-bg-surface overflow-hidden">
+      <div className="divide-border-subtle border-border-default bg-bg-surface divide-y overflow-hidden rounded-lg border">
         {shortcuts.map((s) => (
-          <div key={s.label} className="flex items-center justify-between px-4 py-3">
-            <span className="text-sm text-text-secondary">{s.label}</span>
+          <div
+            key={s.label}
+            className="flex items-center justify-between px-4 py-3"
+          >
+            <span className="text-text-secondary text-sm">{s.label}</span>
             <div className="flex items-center gap-1">
               {s.keys.map((k, i) => (
                 <span key={i} className="flex items-center gap-1">
                   <Kbd>{k}</Kbd>
-                  {i < s.keys.length - 1 && <span className="text-xs text-text-muted">+</span>}
+                  {i < s.keys.length - 1 && (
+                    <span className="text-text-muted text-xs">+</span>
+                  )}
                 </span>
               ))}
             </div>
@@ -210,13 +264,16 @@ ORDER BY lastSeen DESC;`,
       <SectionTitle>Query Formats</SectionTitle>
       <div className="space-y-3">
         {formats.map((f) => (
-          <div key={f.name} className="rounded-lg border border-border-default bg-bg-surface overflow-hidden">
-            <div className="flex items-center gap-2 border-b border-border-subtle px-4 py-3">
-              <span className={cn("font-mono text-sm font-bold", f.color)}>{f.name}</span>
+          <div
+            key={f.name}
+            className="border-border-default bg-bg-surface overflow-hidden rounded-lg border"
+          >
+            <div className="border-border-subtle flex items-center gap-2 border-b px-4 py-3">
+              <span className={cn("text-sm font-bold", f.color)}>{f.name}</span>
             </div>
             <div className="px-4 py-3">
-              <p className="mb-3 text-sm text-text-muted">{f.when}</p>
-              <pre className="overflow-auto rounded-md bg-bg-base p-3 font-mono text-xs leading-relaxed text-text-secondary">
+              <p className="text-text-muted mb-3 text-sm">{f.when}</p>
+              <pre className="bg-bg-base text-text-secondary overflow-auto rounded-md p-3 text-xs leading-relaxed">
                 {f.sample}
               </pre>
             </div>
@@ -233,7 +290,7 @@ function ImportData() {
       title: "Paste a JSON array",
       steps: [
         'Click the "Import" button in the header',
-        "Paste a JSON array (e.g. [{\"id\":1,\"name\":\"Alice\"},...]) or NDJSON (one object per line)",
+        'Paste a JSON array (e.g. [{"id":1,"name":"Alice"},...]) or NDJSON (one object per line)',
         "Give your dataset a name and click Import",
         "Field types are inferred automatically — strings, numbers, booleans, dates, enums, arrays",
       ],
@@ -252,27 +309,32 @@ function ImportData() {
   return (
     <div id="import-data" className="scroll-mt-24">
       <SectionTitle>Import Your Data</SectionTitle>
-      <p className="mb-4 text-sm text-text-muted">
-        Query your own datasets alongside the built-in schemas. Data lives in memory — re-import after a page refresh.
+      <p className="text-text-muted mb-4 text-sm">
+        Query your own datasets alongside the built-in schemas. Data lives in
+        memory — re-import after a page refresh.
       </p>
       <div className="space-y-4">
         {methods.map((m) => (
-          <div key={m.title} className="rounded-lg border border-border-default bg-bg-surface p-4">
-            <p className="mb-3 font-semibold text-text-primary">{m.title}</p>
+          <div
+            key={m.title}
+            className="border-border-default bg-bg-surface rounded-lg border p-4"
+          >
+            <p className="text-text-primary mb-3 font-semibold">{m.title}</p>
             <ol className="space-y-1.5">
               {m.steps.map((step, i) => (
-                <li key={i} className="flex gap-3 text-sm text-text-muted">
-                  <span className="font-mono text-accent shrink-0">{i + 1}.</span>
+                <li key={i} className="text-text-muted flex gap-3 text-sm">
+                  <span className="text-accent shrink-0">{i + 1}.</span>
                   {step}
                 </li>
               ))}
             </ol>
           </div>
         ))}
-        <div className="rounded-lg border border-warning/20 bg-warning/5 p-4">
-          <p className="text-sm text-text-muted">
-            <span className="font-semibold text-warning">Tip: </span>
-            Enums are auto-detected when a field has fewer than 12 unique values. Arrays are detected when values are JSON arrays.
+        <div className="border-warning/20 bg-warning/5 rounded-lg border p-4">
+          <p className="text-text-muted text-sm">
+            <span className="text-warning font-semibold">Tip: </span>
+            Enums are auto-detected when a field has fewer than 12 unique
+            values. Arrays are detected when values are JSON arrays.
           </p>
         </div>
       </div>
@@ -292,7 +354,9 @@ export function LandingDocs() {
       const el = document.getElementById(id);
       if (!el) return;
       const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActive(id); },
+        ([entry]) => {
+          if (entry.isIntersecting) setActive(id);
+        },
         { rootMargin: "-30% 0px -60% 0px", threshold: 0 },
       );
       observer.observe(el);
@@ -303,15 +367,23 @@ export function LandingDocs() {
   }, []);
 
   return (
-    <section id="docs" className="mx-auto mb-32 max-w-7xl px-6 md:px-8" ref={ref}>
+    <section
+      id="docs"
+      className="mx-auto mb-32 max-w-7xl px-6 md:px-8"
+      ref={ref}
+    >
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.4 }}
         className="mb-8"
       >
-        <h2 className="mb-1 text-2xl font-semibold text-text-primary">Documentation</h2>
-        <p className="text-sm text-text-muted">Everything you need to use NexusDB Explorer effectively.</p>
+        <h2 className="text-text-primary mb-1 text-2xl font-semibold">
+          Documentation
+        </h2>
+        <p className="text-text-muted text-sm">
+          Everything you need to use NexusDB Explorer effectively.
+        </p>
       </motion.div>
 
       <motion.div
@@ -329,9 +401,9 @@ export function LandingDocs() {
                 href={`#${s.id}`}
                 onClick={() => setActive(s.id as SectionId)}
                 className={cn(
-                  "whitespace-nowrap rounded-md px-3 py-2 text-sm transition-colors",
+                  "rounded-md px-3 py-2 text-sm whitespace-nowrap transition-colors",
                   active === s.id
-                    ? "bg-accent/10 font-medium text-accent"
+                    ? "bg-accent/10 text-accent font-medium"
                     : "text-text-muted hover:text-text-primary",
                 )}
               >

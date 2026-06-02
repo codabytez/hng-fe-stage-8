@@ -57,7 +57,7 @@ export function Header({ onRunQuery, isRunning = false }: HeaderProps) {
         role="banner"
         className="border-border-subtle bg-bg-surface grid h-14 shrink-0 grid-cols-[1fr_auto_1fr] items-center border-b px-4 md:px-5"
       >
-        {/* Left — hamburger on mobile, spacer on desktop */}
+        {/* Left — hamburger on mobile, home link on desktop */}
         <div className="flex items-center">
           <button
             onClick={toggleSidebar}

@@ -11,10 +11,10 @@ export function LandingHero() {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-6 inline-flex items-center gap-2 rounded-full border border-border-default bg-bg-elevated px-4 py-1.5"
+        className="border-border-default bg-bg-elevated mb-6 inline-flex items-center gap-2 rounded-full border px-4 py-1.5"
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-        <span className="font-mono text-xs font-semibold tracking-widest text-text-accent">
+        <span className="bg-accent h-1.5 w-1.5 rounded-full" />
+        <span className="text-text-accent text-xs font-semibold tracking-widest">
           SQL without the syntax
         </span>
       </motion.div>
@@ -23,20 +23,20 @@ export function LandingHero() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, delay: 0.08 }}
-        className="mb-6 text-6xl font-bold tracking-tight text-text-primary md:text-8xl"
+        className="text-text-primary mb-6 text-6xl font-bold tracking-tight md:text-8xl"
       >
-        Query anything.{" "}
-        <span className="text-accent">Visually.</span>
+        Query anything. <span className="text-accent">Visually.</span>
       </motion.h1>
 
       <motion.p
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.55, delay: 0.16 }}
-        className="mx-auto mb-10 max-w-2xl text-base text-text-muted md:text-lg"
+        className="text-text-muted mx-auto mb-10 max-w-2xl text-base md:text-lg"
       >
         Build complex nested database filters with an intuitive visual editor.
-        NexusDB transforms visual logic into SQL, MongoDB, and GraphQL instantly.
+        NexusDB transforms visual logic into SQL, MongoDB, and GraphQL
+        instantly.
       </motion.p>
 
       <motion.div
@@ -47,20 +47,20 @@ export function LandingHero() {
       >
         <Link
           href="/app"
-          className="flex items-center gap-2 rounded-md bg-accent px-6 py-3 text-base font-semibold text-white transition-all hover:bg-accent-hover active:scale-[0.97]"
+          className="bg-accent hover:bg-accent-hover flex items-center gap-2 rounded-md px-6 py-3 text-base font-semibold text-white transition-all active:scale-[0.97]"
         >
           <Flash size={16} variant="Bold" />
           Launch Explorer
         </Link>
-        <a
+        <Link
           href="https://github.com/codabytez/nexusdb-explorer"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 rounded-md border border-border-default bg-bg-elevated px-6 py-3 text-base font-semibold text-text-primary transition-all hover:bg-bg-overlay"
+          className="border-border-default bg-bg-elevated text-text-primary hover:bg-bg-overlay flex items-center gap-2 rounded-md border px-6 py-3 text-base font-semibold transition-all"
         >
           <Code size={16} />
           View on GitHub
-        </a>
+        </Link>
       </motion.div>
     </section>
   );

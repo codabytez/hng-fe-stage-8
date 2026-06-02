@@ -113,7 +113,7 @@ export function RuleField({ value, onChange, fields }: RuleFieldProps) {
                 {TYPE_ICONS[field.type]}
                 {field.label}
               </span>
-              <span className="text-2xs text-text-muted font-mono">
+              <span className="text-2xs text-text-muted">
                 {TYPE_LABELS[field.type]}
               </span>
             </button>

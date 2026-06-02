@@ -155,7 +155,7 @@ export const CodeBlock = React.memo(function CodeBlock({
     return (
       <pre
         className={cn(
-          "border-code-border bg-code-bg min-h-50 rounded-md border p-4 font-mono text-sm leading-6",
+          "border-code-border bg-code-bg min-h-50 rounded-md border p-4 text-sm leading-6",
           className,
         )}
       >
@@ -176,7 +176,7 @@ export const CodeBlock = React.memo(function CodeBlock({
   return (
     <pre
       className={cn(
-        "border-code-border bg-code-bg h-full overflow-auto rounded-md border p-4 font-mono text-sm leading-6",
+        "border-code-border bg-code-bg h-full overflow-auto rounded-md border p-4 text-sm leading-6",
         className,
       )}
     >
