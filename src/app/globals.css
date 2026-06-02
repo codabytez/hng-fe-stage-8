@@ -125,13 +125,13 @@
   --border-subtle: #1e1e2c;
   --border-default: #2a2a38;
   --border-strong: #3a3a4a;
-  --border-focus: #c4622d;
+  --border-focus: #e0531f;
 
-  /* === ACCENT — PRIMARY (COPPER) === */
-  --accent: #c4622d;
-  --accent-hover: #d4743f;
-  --accent-muted: #c4622d26;
-  --accent-subtle: #c4622d14;
+  /* === ACCENT — PRIMARY (POSTMAN ORANGE) === */
+  --accent: #e0531f;
+  --accent-hover: #ea6535;
+  --accent-muted: #e0531f26;
+  --accent-subtle: #e0531f14;
 
   /* === ACCENT — SECONDARY (CYAN) === */
   --accent-2: #00d2ff;
@@ -155,7 +155,7 @@
   --text-muted: #70707a;
   --text-disabled: #484850;
   --text-inverse: #09090b;
-  --text-accent: #d4743f;
+  --text-accent: #ea6535;
   --text-accent-2: #4de3ff;
 
   /* === CODE / PREVIEW SURFACE === */
@@ -171,7 +171,7 @@
   --code-comment: #5c6370;
 
   /* === NESTING DEPTH COLORS === */
-  --depth-0: #c4622d;
+  --depth-0: #e0531f;
   --depth-1: #00d2ff;
   --depth-2: #23c55e;
   --depth-3: #f59e0b;
@@ -179,8 +179,8 @@
 
   /* === DRAG AND DROP === */
   --drag-handle: #3a3a4a;
-  --drag-handle-hover: #c4622d;
-  --drop-indicator: #c4622d;
+  --drag-handle-hover: #e0531f;
+  --drop-indicator: #e0531f;
   --drag-ghost-bg: #1a1a2480;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -229,24 +229,23 @@
   --border-subtle: #ebebf0;
   --border-default: #e4e4ec;
   --border-strong: #d0d0dc;
-  --border-focus: #9e5525;
+  --border-focus: #e0531f;
 
   --text-primary: #09090b;
   --text-secondary: #52525b;
   --text-muted: #a1a1aa;
   --text-disabled: #d4d4d8;
   --text-inverse: #ededef;
-  --text-accent: #7a3210;
+  --text-accent: #e0531f;
 
-  /* Accent — muted copper for light mode, less punchy */
-  --accent: #9e5525;
-  --accent-hover: #ad6030;
-  --accent-muted: #9e55250f;
-  --accent-subtle: #9e552508;
+  --accent: #e0531f;
+  --accent-hover: #ea6535;
+  --accent-muted: #e0531f26;
+  --accent-subtle: #e0531f14;
 
-  --drag-handle-hover: #9e5525;
-  --drop-indicator: #9e5525;
-  --depth-0: #9e5525;
+  --drag-handle-hover: #e0531f;
+  --drop-indicator: #e0531f;
+  --depth-0: #e0531f;
 
   /* Code stays dark in light mode */
   --code-bg: #1a1a24;

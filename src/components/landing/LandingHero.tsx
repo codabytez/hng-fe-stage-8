@@ -1,46 +1,61 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { Flash, Code } from "iconsax-reactjs";
 
-const SCRAMBLE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@$%&";
+const CYCLE_WORDS = ["Visually.", "Instantly."];
 
-function ScrambleText({ text, delay = 0 }: { text: string; delay?: number }) {
-  const [output, setOutput] = useState(text);
-  const ran = useRef(false);
+const TYPE_SPEED = 70;
+const DELETE_SPEED = 40;
+const PAUSE_FULL = 1400;
+const PAUSE_EMPTY = 300;
+
+function TypewriterCycle() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayed, setDisplayed] = useState("");
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    if (ran.current) return;
-    ran.current = true;
-    let frame = 0;
-    const frames = 24;
-    const t = setTimeout(() => {
-      const iv = setInterval(() => {
-        frame++;
-        setOutput(
-          text
-            .split("")
-            .map((char, i) =>
-              char === " " || char === "." || frame > (i / text.length) * frames
-                ? char
-                : SCRAMBLE_CHARS[
-                    Math.floor(Math.random() * SCRAMBLE_CHARS.length)
-                  ],
-            )
-            .join(""),
-        );
-        if (frame >= frames) {
-          setOutput(text);
-          clearInterval(iv);
-        }
-      }, 40);
-    }, delay * 1000);
-    return () => clearTimeout(t);
-  }, [delay, text]);
+    const word = CYCLE_WORDS[wordIndex];
 
-  return <>{output}</>;
+    if (!deleting && displayed.length < word.length) {
+      const t = setTimeout(
+        () => setDisplayed(word.slice(0, displayed.length + 1)),
+        TYPE_SPEED,
+      );
+      return () => clearTimeout(t);
+    }
+
+    if (!deleting && displayed.length === word.length) {
+      const t = setTimeout(() => setDeleting(true), PAUSE_FULL);
+      return () => clearTimeout(t);
+    }
+
+    if (deleting && displayed.length > 0) {
+      const t = setTimeout(
+        () => setDisplayed(displayed.slice(0, -1)),
+        DELETE_SPEED,
+      );
+      return () => clearTimeout(t);
+    }
+
+    if (deleting && displayed.length === 0) {
+      const t = setTimeout(() => {
+        setDeleting(false);
+        setWordIndex((i) => (i + 1) % CYCLE_WORDS.length);
+      }, PAUSE_EMPTY);
+      return () => clearTimeout(t);
+    }
+  }, [displayed, deleting, wordIndex]);
+
+  return (
+    <>
+      {displayed}
+      <span className="animate-pulse">|</span>
+    </>
+  );
 }
 
 const SQL_TOKENS = [
@@ -78,7 +93,7 @@ export function LandingHero() {
           animate={{
             y: [0, -14, 8, 0],
             x: [0, 8, -6, 0],
-            opacity: [0.2, 0.26, 0.2],
+            opacity: [0.07, 0.16, 0.07],
           }}
           transition={{
             duration: token.dur,
@@ -129,11 +144,8 @@ export function LandingHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-accent inline-block"
-          aria-label="Visually."
         >
-          <span aria-hidden>
-            <ScrambleText text="Visually." delay={0.4} />
-          </span>
+          <TypewriterCycle />
         </motion.span>
       </h1>
 
