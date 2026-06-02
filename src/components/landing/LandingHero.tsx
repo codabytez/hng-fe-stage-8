@@ -67,6 +67,7 @@ export function LandingHero() {
       {SQL_TOKENS.map((token, i) => (
         <motion.span
           key={i}
+          aria-hidden
           className="text-accent pointer-events-none absolute font-mono text-xs font-bold tracking-widest select-none"
           style={{
             left: token.x,
@@ -128,8 +129,11 @@ export function LandingHero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
           className="text-accent inline-block"
+          aria-label="Visually."
         >
-          <ScrambleText text="Visually." delay={0.4} />
+          <span aria-hidden>
+            <ScrambleText text="Visually." delay={0.4} />
+          </span>
         </motion.span>
       </h1>
 

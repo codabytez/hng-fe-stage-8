@@ -5,7 +5,9 @@ import { useRef } from "react";
 import { motion, useInView } from "motion/react";
 import { Flash, Book1 } from "iconsax-reactjs";
 
-const PARTICLES = [
+type Particle = { left: string; top: string; size: number; dur: number; delay: number; dx: number[]; dy: number[] };
+
+const PARTICLES: Particle[] = [
   { left: "8%",  top: "20%", size: 3, dur: 4.0, delay: 0.0, dx: [0,  12, -8,  0], dy: [0, -18, 10,  0] },
   { left: "18%", top: "70%", size: 2, dur: 5.5, delay: 0.6, dx: [0, -10, 15,  0], dy: [0,  12, -20, 0] },
   { left: "30%", top: "15%", size: 2, dur: 3.8, delay: 1.2, dx: [0,   8, -5,  0], dy: [0, -10,  8,  0] },
@@ -14,7 +16,7 @@ const PARTICLES = [
   { left: "75%", top: "65%", size: 3, dur: 5.0, delay: 0.9, dx: [0,  -8, 12,  0], dy: [0, -14,   8, 0] },
   { left: "88%", top: "35%", size: 2, dur: 3.5, delay: 2.1, dx: [0,  14, -10, 0], dy: [0,  10, -16, 0] },
   { left: "92%", top: "75%", size: 2, dur: 4.8, delay: 0.5, dx: [0, -12,   8, 0], dy: [0,  -6,  14, 0] },
-] as const;
+];
 
 export function LandingCTA() {
   const ref = useRef(null);
@@ -35,6 +37,7 @@ export function LandingCTA() {
         {PARTICLES.map((p, i) => (
           <motion.div
             key={i}
+            aria-hidden
             className="bg-accent pointer-events-none absolute rounded-full"
             style={{ left: p.left, top: p.top, width: p.size, height: p.size }}
             animate={{
