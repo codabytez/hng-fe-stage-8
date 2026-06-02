@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import dynamic from "next/dynamic";
 import { HamburgerMenu, CloseCircle } from "iconsax-reactjs";
 import { motion, AnimatePresence } from "motion/react";
@@ -37,13 +37,6 @@ const LINKS = [
 
 export function LandingNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <motion.nav
@@ -53,8 +46,7 @@ export function LandingNav() {
       className="fixed top-4 z-50 w-full px-4 md:px-8"
     >
       <div
-        className="border-border-default/60 bg-bg-surface/80 mx-auto flex h-14 max-w-4xl items-center justify-between rounded-2xl border px-5 backdrop-blur-xl transition-shadow duration-300"
-        style={{ boxShadow: scrolled ? "0 8px 32px rgba(0,0,0,0.35)" : "0 2px 12px rgba(0,0,0,0.15)" }}
+        className="border-border-default/60 bg-bg-surface/80 mx-auto flex h-14 max-w-4xl items-center justify-between rounded-2xl border px-5 backdrop-blur-xl"
       >
         {/* Logo */}
         <motion.div

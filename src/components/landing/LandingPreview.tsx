@@ -25,7 +25,7 @@ export function LandingPreview() {
     >
       <motion.div
         style={{ rotateX, scale, opacity, transformOrigin: "center top" }}
-        className="border-border-default overflow-hidden rounded-xl border shadow-[0_16px_48px_rgba(0,0,0,0.08),0_0_0_1px_rgba(196,98,45,0.06)]"
+        className="border-border-default overflow-hidden rounded-xl border"
       >
         {/* Browser chrome */}
         <div className="border-border-subtle bg-bg-elevated flex items-center gap-3 border-b px-4 py-3">
@@ -64,7 +64,6 @@ export function LandingPreview() {
 
           {/* Query builder canvas */}
           <div className="relative overflow-hidden p-6">
-            <div className="absolute inset-0 bg-[radial-gradient(var(--accent)_1px,transparent_1px)] bg-size-[20px_20px] opacity-[0.04]" />
             <div className="relative z-10 mx-auto max-w-md">
               <div className="mb-3 flex items-center justify-between">
                 <span className="text-text-muted text-xs font-semibold tracking-widest">QUERY BUILDER</span>
@@ -116,7 +115,7 @@ export function LandingPreview() {
               {["SQL", "MongoDB", "GraphQL"].map((t, i) => (
                 <span
                   key={t}
-                  className={`flex-1 rounded-sm py-1 text-center text-xs font-medium ${i === 0 ? "bg-bg-surface text-text-primary shadow-sm" : "text-text-muted"}`}
+                  className={`flex-1 rounded-sm py-1 text-center text-xs font-medium ${i === 0 ? "bg-bg-surface text-text-primary" : "text-text-muted"}`}
                 >
                   {t}
                 </span>
