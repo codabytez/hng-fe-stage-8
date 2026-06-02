@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, AnimatePresence } from "motion/react";
 import { Copy, TickCircle } from "iconsax-reactjs";
 import { cn } from "@/lib/utils";
 
@@ -121,99 +121,119 @@ export function LandingSchemas() {
         </div>
       </motion.div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={inView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 0.45, delay: 0.1 }}
-        className="grid grid-cols-1 gap-4 lg:grid-cols-2"
-      >
-        {/* Field list */}
-        <div className="border-border-default bg-bg-surface rounded-xl border p-6">
-          <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
-            FIELD MANIFEST
-          </h4>
-          <ul className="space-y-3">
-            {schema.fields.map((f) => (
-              <li
-                key={f.name}
-                className="border-border-subtle flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
-              >
-                <code
-                  className={`text-sm ${TYPE_COLORS[f.type] ?? "text-text-primary"}`}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.22 }}
+          className="grid grid-cols-1 gap-4 lg:grid-cols-2"
+        >
+          {/* Field list */}
+          <div className="border-border-default bg-bg-surface rounded-xl border p-6">
+            <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
+              FIELD MANIFEST
+            </h4>
+            <ul className="space-y-3">
+              {schema.fields.map((f, i) => (
+                <motion.li
+                  key={f.name}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.2, delay: i * 0.04 }}
+                  className="border-border-subtle flex items-center justify-between border-b pb-3 last:border-0 last:pb-0"
                 >
-                  {f.name}
-                </code>
-                <span className="border-border-default bg-bg-elevated text-text-muted rounded border px-2 py-0.5 text-xs">
-                  {f.type}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  <code
+                    className={`text-sm ${TYPE_COLORS[f.type] ?? "text-text-primary"}`}
+                  >
+                    {f.name}
+                  </code>
+                  <span className="border-border-default bg-bg-elevated text-text-muted rounded border px-2 py-0.5 text-xs">
+                    {f.type}
+                  </span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
 
-        {/* SQL output */}
-        <div className="border-border-default bg-bg-base relative rounded-xl border p-6">
-          <button
-            onClick={handleCopy}
-            className="text-text-muted hover:text-text-primary absolute top-4 right-4 flex items-center gap-1 rounded-md px-2 py-1 text-xs transition-colors"
-          >
-            {copied ? (
-              <TickCircle size={14} className="text-success" />
-            ) : (
-              <Copy size={14} />
-            )}
-            {copied ? "Copied" : "Copy"}
-          </button>
-          <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
-            GENERATED SQL
-          </h4>
-          <pre className="text-sm leading-relaxed whitespace-pre-wrap">
-            {schema.sql.split("\n").map((line, i) => (
-              <span key={i} className="block">
-                {line.split(/\b/).map((token, j) => {
-                  if (
-                    /^(SELECT|FROM|WHERE|AND|OR|IN|LIKE|ORDER BY|DESC|true|false)$/.test(
-                      token,
+          {/* SQL output */}
+          <div className="border-border-default bg-bg-base relative overflow-hidden rounded-xl border p-6">
+            {/* Scanning line */}
+            <motion.div
+              className="pointer-events-none absolute inset-x-0 h-10"
+              style={{ background: "linear-gradient(to bottom, transparent, rgba(196,98,45,0.1), transparent)" }}
+              animate={{ top: ["8%", "88%"] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: "linear", repeatDelay: 0.6 }}
+            />
+            <button
+              onClick={handleCopy}
+              className="text-text-muted hover:text-text-primary absolute top-4 right-4 flex items-center gap-1 rounded-md px-2 py-1 text-xs transition-colors"
+            >
+              {copied ? (
+                <TickCircle size={14} className="text-success" />
+              ) : (
+                <Copy size={14} />
+              )}
+              {copied ? "Copied" : "Copy"}
+            </button>
+            <h4 className="text-text-muted mb-4 text-xs font-semibold tracking-widest">
+              GENERATED SQL
+            </h4>
+            <pre className="text-sm leading-relaxed whitespace-pre-wrap">
+              {schema.sql.split("\n").map((line, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.15, delay: 0.1 + i * 0.05 }}
+                  className="block"
+                >
+                  {line.split(/\b/).map((token, j) => {
+                    if (
+                      /^(SELECT|FROM|WHERE|AND|OR|IN|LIKE|ORDER BY|DESC|true|false)$/.test(
+                        token,
+                      )
                     )
-                  )
-                    return (
-                      <span key={j} className="text-code-keyword">
-                        {token}
-                      </span>
-                    );
-                  if (/^'.*'$/.test(token))
-                    return (
-                      <span key={j} className="text-code-string">
-                        {token}
-                      </span>
-                    );
-                  if (/^\d+$/.test(token))
-                    return (
-                      <span key={j} className="text-code-number">
-                        {token}
-                      </span>
-                    );
-                  if (
-                    /^(agents|cities|incidents|clearanceLevel|codename|activeStatus|lastSeen|population|crimeIndex|isCapital|severity|isEscalated|responseTime|reportedAt|name|country|founded|title|status|region|missionsCompleted|languages|affectedSystems|governmentType)$/.test(
-                      token,
+                      return (
+                        <span key={j} className="text-code-keyword">
+                          {token}
+                        </span>
+                      );
+                    if (/^'.*'$/.test(token))
+                      return (
+                        <span key={j} className="text-code-string">
+                          {token}
+                        </span>
+                      );
+                    if (/^\d+$/.test(token))
+                      return (
+                        <span key={j} className="text-code-number">
+                          {token}
+                        </span>
+                      );
+                    if (
+                      /^(agents|cities|incidents|clearanceLevel|codename|activeStatus|lastSeen|population|crimeIndex|isCapital|severity|isEscalated|responseTime|reportedAt|name|country|founded|title|status|region|missionsCompleted|languages|affectedSystems|governmentType)$/.test(
+                        token,
+                      )
                     )
-                  )
+                      return (
+                        <span key={j} className="text-code-field">
+                          {token}
+                        </span>
+                      );
                     return (
-                      <span key={j} className="text-code-field">
+                      <span key={j} className="text-code-text">
                         {token}
                       </span>
                     );
-                  return (
-                    <span key={j} className="text-code-text">
-                      {token}
-                    </span>
-                  );
-                })}
-              </span>
-            ))}
-          </pre>
-        </div>
-      </motion.div>
+                  })}
+                </motion.span>
+              ))}
+            </pre>
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </section>
   );
 }

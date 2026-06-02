@@ -1,17 +1,32 @@
 "use client";
 
-import { motion } from "motion/react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "motion/react";
 import { Element4 } from "iconsax-reactjs";
 
 export function LandingPreview() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "center center"],
+  });
+
+  const rawRotateX = useTransform(scrollYProgress, [0, 1], [18, 0]);
+  const rotateX = useSpring(rawRotateX, { stiffness: 80, damping: 25 });
+  const scale = useTransform(scrollYProgress, [0, 1], [0.86, 1]);
+  const opacity = useTransform(scrollYProgress, [0, 0.25], [0, 1]);
+
   return (
     <motion.section
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.35 }}
+      ref={sectionRef}
       className="mx-auto mb-32 max-w-7xl px-6 md:px-8"
+      style={{ perspective: "1400px" }}
     >
-      <div className="border-border-default overflow-hidden rounded-xl border shadow-[0_0_80px_rgba(110,86,207,0.08)]">
+      <motion.div
+        style={{ rotateX, scale, opacity, transformOrigin: "center top" }}
+        className="border-border-default overflow-hidden rounded-xl border shadow-[0_32px_80px_rgba(196,98,45,0.12),0_0_0_1px_rgba(196,98,45,0.06)]"
+      >
         {/* Browser chrome */}
         <div className="border-border-subtle bg-bg-elevated flex items-center gap-3 border-b px-4 py-3">
           <div className="flex gap-1.5">
@@ -35,9 +50,7 @@ export function LandingPreview() {
                   key={s}
                   className={`flex h-9 items-center gap-2 rounded-md px-3 text-xs ${i === 0 ? "bg-accent-subtle text-accent" : "text-text-muted"}`}
                 >
-                  <span
-                    className={`h-1.5 w-1.5 rounded-full ${i === 0 ? "bg-accent" : "bg-border-default"}`}
-                  />
+                  <span className={`h-1.5 w-1.5 rounded-full ${i === 0 ? "bg-accent" : "bg-border-default"}`} />
                   {s}
                 </div>
               ))}
@@ -54,9 +67,7 @@ export function LandingPreview() {
             <div className="absolute inset-0 bg-[radial-gradient(var(--accent)_1px,transparent_1px)] bg-size-[20px_20px] opacity-[0.04]" />
             <div className="relative z-10 mx-auto max-w-md">
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-text-muted text-xs font-semibold tracking-widest">
-                  QUERY BUILDER
-                </span>
+                <span className="text-text-muted text-xs font-semibold tracking-widest">QUERY BUILDER</span>
                 <div className="flex gap-1">
                   {["AND", "OR"].map((l, i) => (
                     <span
@@ -69,7 +80,6 @@ export function LandingPreview() {
                 </div>
               </div>
 
-              {/* Rule cards */}
               {[
                 { field: "clearanceLevel", op: ">", val: "5" },
                 { field: "codename", op: "contains", val: '"Project"' },
@@ -125,14 +135,12 @@ export function LandingPreview() {
               <span className="text-code-text"> ({"\n"} </span>
               <span className="text-code-field">codename</span>
               <span className="text-code-keyword"> LIKE </span>
-              <span className="text-code-string">
-                &#39;%Project%&#39;{"\n"}
-              </span>
+              <span className="text-code-string">&#39;%Project%&#39;{"\n"}</span>
               <span className="text-code-text">)</span>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.section>
   );
 }
